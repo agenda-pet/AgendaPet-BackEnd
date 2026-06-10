@@ -1,4 +1,21 @@
+using AgendaPetAPI.Aplications.Service;
+using AgendaPetAPI.Applications.Service;
+using AgendaPetAPI.Contexts;
+using AgendaPetAPI.Interfaces;
+using AgendaPetAPI.Repositories;
+using DotNetEnv;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+Env.Load();
+
+// pegando a connection string
+string connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+
+// Conexão com banco
+builder.Services.AddDbContext<AgendaPetDbContext>(options => options.UseSqlServer(connectionString));
+
 
 // Add services to the container.
 
@@ -7,7 +24,37 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Comportamento Pet
+builder.Services.AddScoped<IComportamentoPetRepository, ComportamentoPetRepository>();
+builder.Services.AddScoped<ComportamentoPetService>();
+
+// Porte Pet
+builder.Services.AddScoped<IPortePetRepository, PortePetRepository>();
+builder.Services.AddScoped<PortePetService>();
+
+//Raca Pet 
+builder.Services.AddScoped<IRacaPetRepository, RacaPetRepository>();
+builder.Services.AddScoped<RacaPetService>();
+
+//Status agendamento
+builder.Services.AddScoped<IStatusAgendamentoRepository, StatusAgendamentoRepository>();
+builder.Services.AddScoped<StatusAgendamentoService>();
+
+//Status usuario
+builder.Services.AddScoped<IStatusUsuarioRepository, StatusUsuarioRepository>();
+builder.Services.AddScoped<StatusUsuarioService>();
+
+//Tipo animal
+builder.Services.AddScoped<ITipoAnimalRepository, TipoAnimalRepository>();
+builder.Services.AddScoped<TipoAnimalService>();
+
+//Tipo usuario
+builder.Services.AddScoped<ITipoUsuarioRepository, TipoUsuarioRepository>();
+builder.Services.AddScoped<TipoUsuarioService>();
+
 var app = builder.Build();
+
+builder.Services.AddAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -4,10 +4,10 @@ using AgendaPetAPI.Interfaces;
 
 namespace AgendaPetAPI.Repositories
 {
-    public class TipoAnimalRepostiory : ITipoAnimalRepository
+    public class TipoAnimalRepository : ITipoAnimalRepository
     {
         private readonly AgendaPetDbContext _context;
-        public TipoAnimalRepostiory(AgendaPetDbContext context) => _context = context;
+        public TipoAnimalRepository(AgendaPetDbContext context) => _context = context;
 
         public List<TipoAnimal> Listar()
         {
