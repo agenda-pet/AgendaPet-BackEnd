@@ -1,4 +1,4 @@
-﻿using AgendaPetAPI.Aplications.Service;
+﻿using AgendaPetAPI.Applications.Service;
 using AgendaPetAPI.Applications.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +9,8 @@ namespace AgendaPetAPI.Controllers
     [ApiController]
     public class PortePetController : ControllerBase
     {
-        private readonly PortePetService _service;
-        public PortePetController(PortePetService service) => _service = service;
+        private readonly PortePetervice _service;
+        public PortePetController(PortePetervice service) => _service = service;
 
         [HttpGet]
         public IActionResult Listar()

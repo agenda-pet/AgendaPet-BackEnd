@@ -1,4 +1,4 @@
-﻿using AgendaPetAPI.Aplications.Service;
+﻿using AgendaPetAPI.Applications.Service;
 using AgendaPetAPI.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +9,8 @@ namespace AgendaPetAPI.Controllers
     [ApiController]
     public class ComportamentoPetController : ControllerBase
     {
-        private readonly ComportamentoPetService _service;
-        public ComportamentoPetController(ComportamentoPetService service) => _service = service;
+        private readonly ComportamentoPetervice _service;
+        public ComportamentoPetController(ComportamentoPetervice service) => _service = service;
 
         [HttpGet]
         public IActionResult Listar()

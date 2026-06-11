@@ -2,7 +2,7 @@
 using AgendaPetAPI.DTOs.TipoAnimalDTO;
 using AgendaPetAPI.Interfaces;
 
-namespace AgendaPetAPI.Aplications.Service
+namespace AgendaPetAPI.Applications.Service
 {
     public class TipoAnimalService
     {
@@ -12,7 +12,7 @@ namespace AgendaPetAPI.Aplications.Service
         public List<LerTipoAnimalDto> Listar()
         {
             List<TipoAnimal> tipoAnimal = _repository.Listar();
-            if (tipoAnimal != null)
+            if (tipoAnimal == null)
                 throw new Exception("Nenhum tipo de animal localizado!!!");
 
             List<LerTipoAnimalDto> tipoAnimalDto = tipoAnimal.Select(tipo => new LerTipoAnimalDto
@@ -27,7 +27,7 @@ namespace AgendaPetAPI.Aplications.Service
         public LerTipoAnimalDto ObterPorId(Guid id)
         {
             TipoAnimal tipo = _repository.ObterPorId(id);
-            if (tipo != null)
+            if (tipo == null)
                 throw new Exception("Nenhum tipo de animal localizado!!!");
 
             LerTipoAnimalDto tipoDto = new LerTipoAnimalDto

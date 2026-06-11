@@ -2,7 +2,7 @@
 using AgendaPetAPI.DTOs.StatusAgendamentoDTO;
 using AgendaPetAPI.Interfaces;
 
-namespace AgendaPetAPI.Aplications.Service
+namespace AgendaPetAPI.Applications.Service
 {
     public class StatusAgendamentoService
     {
@@ -12,7 +12,7 @@ namespace AgendaPetAPI.Aplications.Service
         public List<LerStatusAgendamentoDto> Listar()
         {
             List<StatusAgendamento> statusAgendamentos = _repository.Listar();
-            if (statusAgendamentos != null)
+            if (statusAgendamentos == null)
                 throw new Exception("Nenhum status de agendamento localizado!!!");
 
             List<LerStatusAgendamentoDto> statusAgedamentoDto = statusAgendamentos.Select(statusAgendamento => new LerStatusAgendamentoDto
@@ -27,7 +27,7 @@ namespace AgendaPetAPI.Aplications.Service
         public LerStatusAgendamentoDto ObterPorId(Guid id)
         {
             StatusAgendamento statusAgendamento = _repository.ObterPorId(id);
-            if (statusAgendamento != null)
+            if (statusAgendamento == null)
                 throw new Exception("Nenhum status de agendamento localizado!!!");
 
             LerStatusAgendamentoDto statusAgendamentoDto = new LerStatusAgendamentoDto

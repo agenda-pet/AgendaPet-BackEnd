@@ -2,5 +2,6 @@
 {
     public class AtualizarSenhaUsuario
     {
+        public byte[]? Senha { get; set; }
     }
 }

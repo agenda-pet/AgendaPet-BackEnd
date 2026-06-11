@@ -4,15 +4,15 @@ using AgendaPetAPI.Interfaces;
 
 namespace AgendaPetAPI.Applications.Service
 {
-    public class PortePetService
+    public class PortePetervice
     {
         private readonly IPortePetRepository _repository;
-        public PortePetService(IPortePetRepository repository) => _repository = repository;
+        public PortePetervice(IPortePetRepository repository) => _repository = repository;
 
         public List<LerPortePetDto> Listar()
         {
             List<PortePet> portesPet = _repository.Listar();
-            if (portesPet != null)
+            if (portesPet == null)
                 throw new Exception("Nenhum porte de pet localizado!!!");
 
             List<LerPortePetDto> portesPetDto = portesPet.Select(porte => new LerPortePetDto
@@ -27,7 +27,7 @@ namespace AgendaPetAPI.Applications.Service
         public LerPortePetDto ObterPorId(Guid id)
         {
             PortePet porte = _repository.ObterPorId(id);
-            if (porte != null)
+            if (porte == null)
                 throw new Exception("Nenhum porte localizado!!!");
 
             LerPortePetDto porteDto = new LerPortePetDto

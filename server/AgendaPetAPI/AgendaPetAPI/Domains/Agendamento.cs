@@ -17,7 +17,7 @@ public partial class Agendamento
 
     public Guid FuncionarioID { get; set; }
 
-    public Guid PetId { get; set; }
+    public Guid PetID { get; set; }
 
     public int TempoTotal { get; set; }
 

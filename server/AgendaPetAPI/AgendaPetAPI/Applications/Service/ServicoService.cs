@@ -2,7 +2,7 @@
 using AgendaPetAPI.DTOs.ServicoDTO;
 using AgendaPetAPI.Interfaces;
 
-namespace AgendaPetAPI.Aplications.Service
+namespace AgendaPetAPI.Applications.Service
 {
     public class ServicoService
     {
@@ -12,7 +12,7 @@ namespace AgendaPetAPI.Aplications.Service
         public List<LerServicoDto> Listar()
         {
             List<Servico> servicosPet = _repository.Listar();
-            if (servicosPet != null)
+            if (servicosPet == null)
                 throw new Exception("Nenhum servico localizado!!!");
 
             List<LerServicoDto> servicosPetDto = servicosPet.Select(servico => new LerServicoDto
@@ -27,7 +27,7 @@ namespace AgendaPetAPI.Aplications.Service
         public LerServicoDto ObterPorId(Guid id)
         {
             Servico servico = _repository.ObterPorId(id);
-            if (servico != null)
+            if (servico == null)
                 throw new Exception("Nenhum servico localizado!!!");
 
             LerServicoDto servicoDto = new LerServicoDto

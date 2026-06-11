@@ -4,10 +4,10 @@ using AgendaPetAPI.Interfaces;
 
 namespace AgendaPetAPI.Repositories
 {
-    public class ServicoPetRepository : IServicoRepository
+    public class ServicoRepository : IServicoRepository
     {
         private readonly AgendaPetDbContext _context;
-        public ServicoPetRepository(AgendaPetDbContext context) => _context = context;
+        public ServicoRepository(AgendaPetDbContext context) => _context = context;
 
         public List<Servico> Listar()
         {
