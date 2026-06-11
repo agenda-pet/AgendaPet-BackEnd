@@ -14,7 +14,7 @@ namespace AgendaPetAPI.Repositories
             return _context.RacaPet.OrderBy(p => p.NomeRaca).ToList();
         }
 
-        public RacaPet ObterPorId(int id)
+        public RacaPet ObterPorId(Guid id)
         {
             return _context.RacaPet.Find(id);
         }

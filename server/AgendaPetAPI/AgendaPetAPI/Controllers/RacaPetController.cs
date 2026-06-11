@@ -1,4 +1,4 @@
-﻿using AgendaPetAPI.Aplications.Service;
+﻿using AgendaPetAPI.Applications.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +8,8 @@ namespace AgendaPetAPI.Controllers
     [ApiController]
     public class RacaPetController : ControllerBase
     {
-        private readonly RacaPetService _service;
-        public RacaPetController(RacaPetService service) => _service = service;
+        private readonly RacaPetervice _service;
+        public RacaPetController(RacaPetervice service) => _service = service;
 
         [HttpGet]
         public IActionResult Listar()
@@ -25,7 +25,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult ObterPorId(int id)
+        public IActionResult ObterPorId(Guid id)
         {
             try
             {

@@ -6,6 +6,6 @@ namespace AgendaPetAPI.Interfaces
     {
         public List<PortePet> Listar();
 
-        public PortePet ObterPorId(int id);
+        public PortePet ObterPorId(Guid id);
     }
 }

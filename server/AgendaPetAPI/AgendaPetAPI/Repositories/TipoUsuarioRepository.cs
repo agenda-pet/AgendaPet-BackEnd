@@ -11,10 +11,10 @@ namespace AgendaPetAPI.Repositories
 
         public List<TipoUsuario> Listar()
         {
-            return _context.TipoUsuario.OrderBy(p => p.NomeRaca).ToList();
+            return _context.TipoUsuario.OrderBy(p => p.NomeTipo).ToList();
         }
 
-        public TipoUsuario ObterPorId(int id)
+        public TipoUsuario ObterPorId(Guid id)
         {
             return _context.TipoUsuario.Find(id);
         }

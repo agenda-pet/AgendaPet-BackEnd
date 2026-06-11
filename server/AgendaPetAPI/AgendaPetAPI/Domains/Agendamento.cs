@@ -17,9 +17,9 @@ public partial class Agendamento
 
     public Guid FuncionarioID { get; set; }
 
-    public Guid PetId { get; set; }
+    public Guid PetID { get; set; }
 
-    public virtual ICollection<AgendamentoServico> AgendamentoServico { get; set; } = new List<AgendamentoServico>();
+    public int TempoTotal { get; set; }
 
     public virtual Usuario Funcionario { get; set; } = null!;
 
@@ -28,4 +28,6 @@ public partial class Agendamento
     public virtual Pet Pet { get; set; } = null!;
 
     public virtual StatusAgendamento StatusAgendamento { get; set; } = null!;
+
+    public virtual ICollection<Servico> Servico { get; set; } = new List<Servico>();
 }

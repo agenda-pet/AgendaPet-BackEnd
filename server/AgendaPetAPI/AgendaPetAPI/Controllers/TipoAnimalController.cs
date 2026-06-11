@@ -1,4 +1,4 @@
-﻿using AgendaPetAPI.Aplications.Service;
+﻿using AgendaPetAPI.Applications.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +25,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult ObterPorId(int id)
+        public IActionResult ObterPorId(Guid id)
         {
             try
             {

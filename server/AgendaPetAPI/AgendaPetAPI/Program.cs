@@ -1,10 +1,12 @@
-using AgendaPetAPI.Aplications.Service;
+using AgendaPetAPI.Applications.Autentification;
 using AgendaPetAPI.Applications.Service;
 using AgendaPetAPI.Contexts;
+using AgendaPetAPI.Domains;
 using AgendaPetAPI.Interfaces;
 using AgendaPetAPI.Repositories;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,29 +23,52 @@ builder.Services.AddDbContext<AgendaPetDbContext>(options => options.UseSqlServe
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Value: Bearer TokenJWT"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 // Comportamento Pet
 builder.Services.AddScoped<IComportamentoPetRepository, ComportamentoPetRepository>();
-builder.Services.AddScoped<ComportamentoPetService>();
+builder.Services.AddScoped<ComportamentoPetervice>();
 
 // Porte Pet
 builder.Services.AddScoped<IPortePetRepository, PortePetRepository>();
-builder.Services.AddScoped<PortePetService>();
+builder.Services.AddScoped<PortePetervice>();
 
 //Raca Pet 
 builder.Services.AddScoped<IRacaPetRepository, RacaPetRepository>();
-builder.Services.AddScoped<RacaPetService>();
+builder.Services.AddScoped<RacaPetervice>();
 
 //Status agendamento
 builder.Services.AddScoped<IStatusAgendamentoRepository, StatusAgendamentoRepository>();
 builder.Services.AddScoped<StatusAgendamentoService>();
 
-//Status usuario
-builder.Services.AddScoped<IStatusUsuarioRepository, StatusUsuarioRepository>();
-builder.Services.AddScoped<StatusUsuarioService>();
+//Servico
+builder.Services.AddScoped<IServicoRepository, ServicoRepository>();
+builder.Services.AddScoped<ServicoService>();
 
 //Tipo animal
 builder.Services.AddScoped<ITipoAnimalRepository, TipoAnimalRepository>();
@@ -52,6 +77,22 @@ builder.Services.AddScoped<TipoAnimalService>();
 //Tipo usuario
 builder.Services.AddScoped<ITipoUsuarioRepository, TipoUsuarioRepository>();
 builder.Services.AddScoped<TipoUsuarioService>();
+
+//Log agendamento
+builder.Services.AddScoped<ILogAgendamentoRepository, LogAgendamentoRepository>();
+builder.Services.AddScoped<LogAgendamentoService>();
+
+//Usuario 
+builder.Services.AddScoped<IUsuarioRepository,  UsuarioRepository>();
+builder.Services.AddScoped<UsuarioService>();
+
+//Pet 
+builder.Services.AddScoped<IPetRepository, PetRepository>();
+builder.Services.AddScoped<PetService>();
+
+//JWT
+builder.Services.AddScoped<GeradorTokenJWT>();
+builder.Services.AddScoped<AutenticacaoService>();
 
 var app = builder.Build();
 

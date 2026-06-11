@@ -2,17 +2,17 @@
 using AgendaPetAPI.DTOs.ComportamentoPetDTO;
 using AgendaPetAPI.Interfaces;
 
-namespace AgendaPetAPI.Aplications.Service
+namespace AgendaPetAPI.Applications.Service
 {
-    public class ComportamentoPetService
+    public class ComportamentoPetervice
     {
         private readonly IComportamentoPetRepository _repository;
-        public ComportamentoPetService(IComportamentoPetRepository repository) => _repository = repository;
+        public ComportamentoPetervice(IComportamentoPetRepository repository) => _repository = repository;
 
         public List<LerComportamentoPetDto> Listar()
         {
             List<ComportamentoPet> comportamentos = _repository.Listar();
-            if (comportamentos != null)
+            if (comportamentos == null)
                 throw new Exception("Nenhum comportamento localizado!!!");
 
             List<LerComportamentoPetDto> comportamentosDto = comportamentos.Select(comportamento => new LerComportamentoPetDto
@@ -24,10 +24,10 @@ namespace AgendaPetAPI.Aplications.Service
             return comportamentosDto;
         }
 
-        public LerComportamentoPetDto ObterPorId(int id)
+        public LerComportamentoPetDto ObterPorId(Guid id)
         {
             ComportamentoPet comportamento = _repository.ObterPorId(id);
-            if (comportamento != null)
+            if (comportamento == null)
                 throw new Exception("Nenhum comportamento localizado!!!");
 
             LerComportamentoPetDto comportamentoDto = new LerComportamentoPetDto

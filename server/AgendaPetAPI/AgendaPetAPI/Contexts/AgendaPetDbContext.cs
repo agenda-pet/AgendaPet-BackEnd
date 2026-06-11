@@ -18,8 +18,6 @@ public partial class AgendaPetDbContext : DbContext
 
     public virtual DbSet<Agendamento> Agendamento { get; set; }
 
-    public virtual DbSet<AgendamentoServico> AgendamentoServico { get; set; }
-
     public virtual DbSet<ComportamentoPet> ComportamentoPet { get; set; }
 
     public virtual DbSet<LogAgendamento> LogAgendamento { get; set; }
@@ -33,8 +31,6 @@ public partial class AgendaPetDbContext : DbContext
     public virtual DbSet<Servico> Servico { get; set; }
 
     public virtual DbSet<StatusAgendamento> StatusAgendamento { get; set; }
-
-    public virtual DbSet<StatusUsuario> StatusUsuario { get; set; }
 
     public virtual DbSet<TipoAnimal> TipoAnimal { get; set; }
 
@@ -50,7 +46,7 @@ public partial class AgendaPetDbContext : DbContext
     {
         modelBuilder.Entity<Agendamento>(entity =>
         {
-            entity.HasKey(e => e.AgendamentoID).HasName("PK__Agendame__AE013113F9276900");
+            entity.HasKey(e => e.AgendamentoID).HasName("PK__Agendame__AE0131135AE982BE");
 
             entity.Property(e => e.AgendamentoID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.ValorTotal).HasColumnType("decimal(6, 2)");
@@ -61,32 +57,19 @@ public partial class AgendaPetDbContext : DbContext
                 .HasConstraintName("FK_Agendamento_Funcionario_FuncionarioID");
 
             entity.HasOne(d => d.Pet).WithMany(p => p.Agendamento)
-                .HasForeignKey(d => d.PetId)
+                .HasForeignKey(d => d.PetID)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Agendamento_Pet_PetID");
 
             entity.HasOne(d => d.StatusAgendamento).WithMany(p => p.Agendamento)
                 .HasForeignKey(d => d.StatusAgendamentoID)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Agendamento_StatusAgendamento_StatusAgendamentoId");
-        });
-
-        modelBuilder.Entity<AgendamentoServico>(entity =>
-        {
-            entity.HasKey(e => new { e.ServicoID, e.AgendamentoID }).HasName("PK_AgendamentoServico_ServicoID_AgendamentoID");
-
-            entity.HasOne(d => d.Agendamento).WithMany(p => p.AgendamentoServico)
-                .HasForeignKey(d => d.AgendamentoID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
-            entity.HasOne(d => d.Servico).WithMany(p => p.AgendamentoServico)
-                .HasForeignKey(d => d.ServicoID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .HasConstraintName("FK_Agendamento_StatusAgendamento_StatusAgendamentoID");
         });
 
         modelBuilder.Entity<ComportamentoPet>(entity =>
         {
-            entity.HasKey(e => e.ComportamentoID).HasName("PK__Comporta__DDE19EC959F088D2");
+            entity.HasKey(e => e.ComportamentoID).HasName("PK__Comporta__DDE19EC9DE463394");
 
             entity.Property(e => e.ComportamentoID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.NomeComportamento)
@@ -96,7 +79,7 @@ public partial class AgendaPetDbContext : DbContext
 
         modelBuilder.Entity<LogAgendamento>(entity =>
         {
-            entity.HasKey(e => e.LogAgendamentoID).HasName("PK__LogAgend__2D9A4EF425BBF62D");
+            entity.HasKey(e => e.LogAgendamentoID).HasName("PK__LogAgend__2D9A4EF450AECCE9");
 
             entity.Property(e => e.LogAgendamentoID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.DataAnteriorAgendameto).HasColumnType("datetime");
@@ -112,7 +95,7 @@ public partial class AgendaPetDbContext : DbContext
 
         modelBuilder.Entity<Pet>(entity =>
         {
-            entity.HasKey(e => e.PetID).HasName("PK__Pet__48E538022E3DFD0A");
+            entity.HasKey(e => e.PetID).HasName("PK__Pet__48E53802F2F81528");
 
             entity.Property(e => e.PetID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Nome)
@@ -145,7 +128,7 @@ public partial class AgendaPetDbContext : DbContext
 
         modelBuilder.Entity<PortePet>(entity =>
         {
-            entity.HasKey(e => e.PorteID).HasName("PK__PortePet__DD930486AF6CD47C");
+            entity.HasKey(e => e.PorteID).HasName("PK__PortePet__DD930486A0349144");
 
             entity.Property(e => e.PorteID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.NomePorte)
@@ -155,7 +138,7 @@ public partial class AgendaPetDbContext : DbContext
 
         modelBuilder.Entity<RacaPet>(entity =>
         {
-            entity.HasKey(e => e.RacaID).HasName("PK__RacaPet__06FBD6D2E5C6FAB4");
+            entity.HasKey(e => e.RacaID).HasName("PK__RacaPet__06FBD6D21E047D93");
 
             entity.Property(e => e.RacaID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.NomeRaca)
@@ -165,18 +148,32 @@ public partial class AgendaPetDbContext : DbContext
 
         modelBuilder.Entity<Servico>(entity =>
         {
-            entity.HasKey(e => e.ServicoID).HasName("PK__Servico__C5976796E7C0D2A2");
+            entity.HasKey(e => e.ServicoID).HasName("PK__Servico__C597679690AA3E7F");
 
             entity.Property(e => e.ServicoID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.NomeServico)
                 .HasMaxLength(40)
                 .IsUnicode(false);
             entity.Property(e => e.Preco).HasColumnType("decimal(6, 2)");
+
+            entity.HasMany(d => d.Agendamento).WithMany(p => p.Servico)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AgendamentoServico",
+                    r => r.HasOne<Agendamento>().WithMany()
+                        .HasForeignKey("AgendamentoID")
+                        .OnDelete(DeleteBehavior.ClientSetNull),
+                    l => l.HasOne<Servico>().WithMany()
+                        .HasForeignKey("ServicoID")
+                        .OnDelete(DeleteBehavior.ClientSetNull),
+                    j =>
+                    {
+                        j.HasKey("ServicoID", "AgendamentoID").HasName("PK_AgendamentoServico_ServicoID_AgendamentoID");
+                    });
         });
 
         modelBuilder.Entity<StatusAgendamento>(entity =>
         {
-            entity.HasKey(e => e.StatusAgendamentoID).HasName("PK__StatusAg__0C862FF94AC404F2");
+            entity.HasKey(e => e.StatusAgendamentoID).HasName("PK__StatusAg__0C862FF92199AB89");
 
             entity.Property(e => e.StatusAgendamentoID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.NomeStatus)
@@ -184,19 +181,9 @@ public partial class AgendaPetDbContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<StatusUsuario>(entity =>
-        {
-            entity.HasKey(e => e.StatusUsuarioID).HasName("PK__StatusUs__3DA33E8DC75B27C7");
-
-            entity.Property(e => e.StatusUsuarioID).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.NomeStatus)
-                .HasMaxLength(40)
-                .IsUnicode(false);
-        });
-
         modelBuilder.Entity<TipoAnimal>(entity =>
         {
-            entity.HasKey(e => e.TipoAnimalID).HasName("PK__TipoAnim__70437777F43644AA");
+            entity.HasKey(e => e.TipoAnimalID).HasName("PK__TipoAnim__70437777C5E7271D");
 
             entity.Property(e => e.TipoAnimalID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.NomeTipo)
@@ -206,21 +193,21 @@ public partial class AgendaPetDbContext : DbContext
 
         modelBuilder.Entity<TipoUsuario>(entity =>
         {
-            entity.HasKey(e => e.TipoUsuarioID).HasName("PK__TipoUsua__7F22C70228AD79FD");
+            entity.HasKey(e => e.TipoUsuarioID).HasName("PK__TipoUsua__7F22C702FC902BD8");
 
             entity.Property(e => e.TipoUsuarioID).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.NomeRaca)
+            entity.Property(e => e.NomeTipo)
                 .HasMaxLength(40)
                 .IsUnicode(false);
         });
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.UsuarioID).HasName("PK__Usuario__2B3DE798C4579571");
+            entity.HasKey(e => e.UsuarioID).HasName("PK__Usuario__2B3DE798881A4B90");
 
-            entity.HasIndex(e => e.NumeroTelefone, "UQ__Usuario__0DC3DBFF0094ACD1").IsUnique();
+            entity.HasIndex(e => e.NumeroTelefone, "UQ__Usuario__0DC3DBFFBAC6014B").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Usuario__A9D10534015AE0EE").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Usuario__A9D10534A2D653CB").IsUnique();
 
             entity.Property(e => e.UsuarioID).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Email)
@@ -233,10 +220,7 @@ public partial class AgendaPetDbContext : DbContext
                 .HasMaxLength(15)
                 .IsUnicode(false);
             entity.Property(e => e.Senha).HasMaxLength(32);
-
-            entity.HasOne(d => d.StatusUsuario).WithMany(p => p.Usuario)
-                .HasForeignKey(d => d.StatusUsuarioID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.Property(e => e.StatusUsuarioID).HasDefaultValue(true);
 
             entity.HasOne(d => d.TipoUsuario).WithMany(p => p.Usuario)
                 .HasForeignKey(d => d.TipoUsuarioID)

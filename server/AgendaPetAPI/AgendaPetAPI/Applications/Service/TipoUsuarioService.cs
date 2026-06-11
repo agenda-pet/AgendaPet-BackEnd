@@ -2,7 +2,7 @@
 using AgendaPetAPI.DTOs.TipoUsuarioDTO;
 using AgendaPetAPI.Interfaces;
 
-namespace AgendaPetAPI.Aplications.Service
+namespace AgendaPetAPI.Applications.Service
 {
     public class TipoUsuarioService
     {
@@ -12,28 +12,28 @@ namespace AgendaPetAPI.Aplications.Service
         public List<LerTipoUsuarioDto> Listar()
         {
             List<TipoUsuario> tipoUsuario = _repository.Listar();
-            if (tipoUsuario != null)
+            if (tipoUsuario == null)
                 throw new Exception("Nenhum tipo de usuario localizado!!!");
 
             List<LerTipoUsuarioDto> tipoUsuarioDto = tipoUsuario.Select(tipo => new LerTipoUsuarioDto
             {
                 TipoUsuarioID = tipo.TipoUsuarioID,
-                NomeRaca = tipo.NomeRaca,
+                NomeRaca = tipo.NomeTipo,
             }).ToList();
 
             return tipoUsuarioDto;
         }
 
-        public LerTipoUsuarioDto ObterPorId(int id)
+        public LerTipoUsuarioDto ObterPorId(Guid id)
         {
             TipoUsuario tipo = _repository.ObterPorId(id);
-            if (tipo != null)
+            if (tipo == null)
                 throw new Exception("Nenhum tipo de usuario localizado!!!");
 
             LerTipoUsuarioDto tipoDto = new LerTipoUsuarioDto
             {
                 TipoUsuarioID = tipo.TipoUsuarioID,
-                NomeRaca = tipo.NomeRaca,
+                NomeRaca = tipo.NomeTipo,
             };
 
             return tipoDto;

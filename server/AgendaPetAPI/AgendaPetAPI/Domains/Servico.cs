@@ -11,5 +11,7 @@ public partial class Servico
 
     public decimal Preco { get; set; }
 
-    public virtual ICollection<AgendamentoServico> AgendamentoServico { get; set; } = new List<AgendamentoServico>();
+    public int TempoServico { get; set; }
+
+    public virtual ICollection<Agendamento> Agendamento { get; set; } = new List<Agendamento>();
 }
