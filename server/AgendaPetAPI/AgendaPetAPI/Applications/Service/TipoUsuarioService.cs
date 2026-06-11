@@ -24,7 +24,7 @@ namespace AgendaPetAPI.Aplications.Service
             return tipoUsuarioDto;
         }
 
-        public LerTipoUsuarioDto ObterPorId(int id)
+        public LerTipoUsuarioDto ObterPorId(Guid id)
         {
             TipoUsuario tipo = _repository.ObterPorId(id);
             if (tipo != null)

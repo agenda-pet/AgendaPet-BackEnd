@@ -25,7 +25,7 @@ namespace AgendaPetAPI.Aplications.Service
             return racasPetDto;
         }
 
-        public LerRacaPetDto ObterPorId(int id)
+        public LerRacaPetDto ObterPorId(Guid id)
         {
             RacaPet raca = _repository.ObterPorId(id);
             if (raca!= null)

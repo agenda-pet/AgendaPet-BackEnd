@@ -14,7 +14,7 @@ namespace AgendaPetAPI.Repositories
             return _context.TipoUsuario.OrderBy(p => p.NomeRaca).ToList();
         }
 
-        public TipoUsuario ObterPorId(int id)
+        public TipoUsuario ObterPorId(Guid id)
         {
             return _context.TipoUsuario.Find(id);
         }

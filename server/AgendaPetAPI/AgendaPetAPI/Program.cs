@@ -24,8 +24,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
 // Comportamento Pet
 builder.Services.AddScoped<IComportamentoPetRepository, ComportamentoPetRepository>();
 builder.Services.AddScoped<ComportamentoPetService>();

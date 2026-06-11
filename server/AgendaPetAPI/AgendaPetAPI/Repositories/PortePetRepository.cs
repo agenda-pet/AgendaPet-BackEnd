@@ -14,7 +14,7 @@ namespace AgendaPetAPI.Repositories
             return _context.PortePet.OrderBy(p => p.NomePorte).ToList();
         }
 
-        public PortePet ObterPorId(int id)
+        public PortePet ObterPorId(Guid id)
         {
             return _context.PortePet.Find(id);
         }

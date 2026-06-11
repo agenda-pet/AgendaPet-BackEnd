@@ -26,7 +26,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult ObterPorId(int id)
+        public IActionResult ObterPorId(Guid id)
         {
             try
             {

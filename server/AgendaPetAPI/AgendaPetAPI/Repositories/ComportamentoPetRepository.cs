@@ -14,7 +14,7 @@ namespace AgendaPetAPI.Repositories
             return _context.ComportamentoPet.OrderBy(c => c.NomeComportamento).ToList();
         }
 
-        public ComportamentoPet ObterPorId(int id)
+        public ComportamentoPet ObterPorId(Guid id)
         {
             return _context.ComportamentoPet.Find(id);
         }

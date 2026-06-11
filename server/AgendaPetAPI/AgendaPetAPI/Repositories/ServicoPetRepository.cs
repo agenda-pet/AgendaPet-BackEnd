@@ -14,7 +14,7 @@ namespace AgendaPetAPI.Repositories
             return _context.Servico.OrderBy(p => p.NomeServico).ToList();
         }
 
-        public Servico ObterPorId(int id)
+        public Servico ObterPorId(Guid id)
         {
             return _context.Servico.Find(id);
         }

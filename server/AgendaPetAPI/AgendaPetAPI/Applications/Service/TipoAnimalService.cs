@@ -24,7 +24,7 @@ namespace AgendaPetAPI.Aplications.Service
             return tipoAnimalDto;
         }
 
-        public LerTipoAnimalDto ObterPorId(int id)
+        public LerTipoAnimalDto ObterPorId(Guid id)
         {
             TipoAnimal tipo = _repository.ObterPorId(id);
             if (tipo != null)

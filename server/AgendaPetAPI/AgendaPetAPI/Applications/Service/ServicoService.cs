@@ -24,7 +24,7 @@ namespace AgendaPetAPI.Aplications.Service
             return servicosPetDto;
         }
 
-        public LerServicoDto ObterPorId(int id)
+        public LerServicoDto ObterPorId(Guid id)
         {
             Servico servico = _repository.ObterPorId(id);
             if (servico != null)

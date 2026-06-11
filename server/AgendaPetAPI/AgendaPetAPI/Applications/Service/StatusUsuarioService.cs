@@ -24,7 +24,7 @@ namespace AgendaPetAPI.Aplications.Service
             return statusUsuarioDto;
         }
 
-        public LerStatusUsuarioDto ObterPorId(int id)
+        public LerStatusUsuarioDto ObterPorId(Guid id)
         {
             StatusUsuario status = _repository.ObterPorId(id);
             if (status != null)

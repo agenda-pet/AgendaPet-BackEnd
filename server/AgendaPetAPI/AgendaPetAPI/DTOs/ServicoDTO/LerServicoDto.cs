@@ -7,5 +7,7 @@
         public string NomeServico { get; set; } = null!;
 
         public decimal Preco { get; set; }
+
+        public int TempoServico { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace AgendaPetAPI.Applications.Service
             return portesPetDto;
         }
 
-        public LerPortePetDto ObterPorId(int id)
+        public LerPortePetDto ObterPorId(Guid id)
         {
             PortePet porte = _repository.ObterPorId(id);
             if (porte != null)

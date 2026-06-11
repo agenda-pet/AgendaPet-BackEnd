@@ -24,7 +24,7 @@ namespace AgendaPetAPI.Aplications.Service
             return comportamentosDto;
         }
 
-        public LerComportamentoPetDto ObterPorId(int id)
+        public LerComportamentoPetDto ObterPorId(Guid id)
         {
             ComportamentoPet comportamento = _repository.ObterPorId(id);
             if (comportamento != null)
