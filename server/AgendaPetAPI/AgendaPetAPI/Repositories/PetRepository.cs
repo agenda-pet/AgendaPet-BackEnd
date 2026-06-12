@@ -11,10 +11,10 @@ namespace AgendaPetAPI.Repositories
 
         public List<Pet> Listar() => _context.Pet.OrderBy(p => p.Nome).ToList();
         public Pet ObterPorId(Guid id) => _context.Pet.Find(id);
-        public Pet ObterPorTutor(Guid tutorId, Guid petId)
+        public List<Pet> ObterPorTutor(Guid tutorId)
         {
-            Pet pet = _context.Usuario.FirstOrDefault(t => t.UsuarioID == tutorId).Pet.FirstOrDefault(p => p.PetID == petId);
-            return pet;
+            List<Pet> pets = _context.Pet.Where(t => t.UsuarioID.Equals(tutorId)).ToList();
+            return pets;
         }
 
         public void Adicionar(Pet pet)

@@ -6,9 +6,9 @@ namespace AgendaPetAPI.Interfaces
     {
         public List<Pet> Listar();
         public Pet ObterPorId(Guid id);
-        public Pet ObterPorTutor(Guid tutorId, Guid petId);
+        public List<Pet> ObterPorTutor(Guid tutorId);
         public void Adicionar(Pet pet);
-        public void Atualizar(Guid tutorId, Pet pet);
+        public void Atualizar(Guid petId, Pet pet);
         public void Remover(Guid id);
     }
 }

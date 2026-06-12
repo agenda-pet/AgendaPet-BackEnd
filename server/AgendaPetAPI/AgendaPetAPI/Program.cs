@@ -1,12 +1,11 @@
 using AgendaPetAPI.Applications.Autentification;
 using AgendaPetAPI.Applications.Service;
 using AgendaPetAPI.Contexts;
-using AgendaPetAPI.Domains;
 using AgendaPetAPI.Interfaces;
 using AgendaPetAPI.Repositories;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
