@@ -1,6 +1,7 @@
 ﻿using AgendaPetAPI.Contexts;
 using AgendaPetAPI.Domains;
 using AgendaPetAPI.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgendaPetAPI.Repositories
 {
@@ -9,11 +10,29 @@ namespace AgendaPetAPI.Repositories
         private readonly AgendaPetDbContext _context;
         public PetRepository(AgendaPetDbContext context) => _context = context;
 
-        public List<Pet> Listar() => _context.Pet.OrderBy(p => p.Nome).ToList();
+        public List<Pet> Listar() => _context.Pet.Include(p => p.Usuario)
+                                                 .Include(p => p.Comportamento)
+                                                 .Include(p => p.Raca).Include(p => p.TipoAnimal)
+                                                 .Include(p => p.Porte)
+                                                 .OrderBy(p => p.Nome).ToList();
+
         public Pet ObterPorId(Guid id) => _context.Pet.Find(id);
         public List<Pet> ObterPorTutor(Guid tutorId)
         {
-            List<Pet> pets = _context.Pet.Where(t => t.UsuarioID.Equals(tutorId)).ToList();
+            List<Pet> pets = _context.Pet.Include(p => p.Usuario)
+                                                 .Include(p => p.Comportamento)
+                                                 .Include(p => p.Raca).Include(p => p.TipoAnimal)
+                                                 .Include(p => p.Porte)
+                                                 .Where(t => t.UsuarioID.Equals(tutorId)).ToList();
+            return pets;
+        }
+        public List<Pet> ObterPorNome(string nome)
+        {
+            List<Pet> pets = _context.Pet.Include(p => p.Usuario)
+                                                 .Include(p => p.Comportamento)
+                                                 .Include(p => p.Raca).Include(p => p.TipoAnimal)
+                                                 .Include(p => p.Porte)
+                                                 .Where(t => t.Nome.Contains(nome)).ToList();
             return pets;
         }
 

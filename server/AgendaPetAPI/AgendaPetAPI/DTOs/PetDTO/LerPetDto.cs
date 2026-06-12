@@ -16,7 +16,7 @@ namespace AgendaPetAPI.DTOs.PetDTO
 
         public Guid PorteID { get; set; }
 
-        public Guid UsuarioID { get; set; }
+        public string NomeDono { get; set; }
 
         public virtual ICollection<Agendamento> Agendamentos { get; set; } = new List<Agendamento>();
     }

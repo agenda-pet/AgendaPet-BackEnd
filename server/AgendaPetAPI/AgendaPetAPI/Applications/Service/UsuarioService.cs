@@ -31,10 +31,9 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
+                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
             }).ToList();
 
-            Console.WriteLine("111111111111111111111111111111111");
-            Console.WriteLine(usuariosDto[1].Nome);
             return usuariosDto;
         }
 
@@ -52,6 +51,7 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
+                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
             };
 
             return usuarioDto;
@@ -71,6 +71,7 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
+                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
             }).ToList();
 
             return usuariosDto;
@@ -90,6 +91,8 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
+                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
+
             };
 
             return usuarioDto;
@@ -109,6 +112,7 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
+                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
             };
 
             return usuarioDto;
@@ -151,7 +155,7 @@ namespace AgendaPetAPI.Applications.Service
             usuario.Senha = SenhaHash.Converter(usuarioDto.Senha) ?? usuario.Senha;
             usuario.TipoUsuarioID = usuarioDto.TipoUsuarioID;
             usuario.StatusUsuarioID = usuarioDto.StatusUsuarioID;
-
+            
             _repository.Atualizar(id, usuario);
         }
 

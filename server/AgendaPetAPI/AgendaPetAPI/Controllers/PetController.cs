@@ -37,13 +37,25 @@ namespace AgendaPetAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("TutorId/{tutorId}/PetId/{petId}")]
-        public IActionResult ObterTutorPorId(Guid tutorId, Guid petId)
+        [HttpGet("Nome/{nome}")]
+        public IActionResult ObterPorId(string nome)
         {
             try
             {
-                return Ok(_service.ObterTutorPorId(tutorId, petId));
+                return Ok(_service.ObterPorNome(nome));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("TutorId/{tutorId}")]
+        public IActionResult ObterTutorPorId(Guid tutorId)
+        {
+            try
+            {
+                return Ok(_service.ObterTutorPorId(tutorId));
             }
             catch (Exception ex)
             {

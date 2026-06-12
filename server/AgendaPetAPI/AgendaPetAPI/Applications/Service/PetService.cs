@@ -40,7 +40,7 @@ namespace AgendaPetAPI.Applications.Service
                 RacaID = pet.RacaID,
                 ComportamentoID = pet.ComportamentoID,
                 TipoAnimalID = pet.TipoAnimalID,
-                UsuarioID = pet.UsuarioID,
+                NomeDono = pet.Usuario.Nome,
             }).ToList();
 
             return PetDto;
@@ -60,19 +60,19 @@ namespace AgendaPetAPI.Applications.Service
                 RacaID = pet.RacaID,
                 ComportamentoID = pet.ComportamentoID,
                 TipoAnimalID = pet.TipoAnimalID,
-                UsuarioID = pet.UsuarioID,
+                NomeDono = pet.Usuario.Nome,
             };
 
             return petDto;
         }
 
-        public LerPetDto ObterTutorPorId(Guid tutorId, Guid petId)
+        public List<LerPetDto> ObterPorNome(string nome)
         {
-            Pet pet = _repository.ObterPorTutor(tutorId, petId);
-            if (pet == null)
-                throw new DomainException("Nenhum pet localizado");
+            List<Pet> pets = _repository.ObterPorNome(nome);
+            if (pets == null || pets.Count == 0)
+                throw new DomainException("Nenhum pet localizado!!!");
 
-            LerPetDto petDto = new LerPetDto
+            List<LerPetDto> petsDto = pets.Select(pet => new LerPetDto
             {
                 PetID = pet.PetID,
                 Nome = pet.Nome,
@@ -80,10 +80,30 @@ namespace AgendaPetAPI.Applications.Service
                 RacaID = pet.RacaID,
                 ComportamentoID = pet.ComportamentoID,
                 TipoAnimalID = pet.TipoAnimalID,
-                UsuarioID = pet.UsuarioID,
-            };
+                NomeDono = pet.Usuario.Nome,
+            }).ToList();
 
-            return petDto;
+            return petsDto;
+        }
+
+        public List<LerPetDto> ObterTutorPorId(Guid tutorId)
+        {
+            List<Pet> pets = _repository.ObterPorTutor(tutorId);
+            if (pets == null || pets.Count == 0)
+                throw new DomainException("Nenhum pet localizado");
+
+            List<LerPetDto> petDtos = pets.Select(pet => new LerPetDto
+            {
+                PetID = pet.PetID,
+                Nome = pet.Nome,
+                PorteID = pet.PorteID,
+                RacaID = pet.RacaID,
+                ComportamentoID = pet.ComportamentoID,
+                TipoAnimalID = pet.TipoAnimalID,
+                NomeDono = pet.Usuario.Nome,
+            }).ToList();
+
+            return petDtos;
         }
 
         public Pet Adicionar(CriarPetDto pet)
