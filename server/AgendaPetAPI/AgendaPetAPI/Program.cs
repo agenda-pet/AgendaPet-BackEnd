@@ -1,11 +1,11 @@
 using AgendaPetAPI.Applications.Autentification;
 using AgendaPetAPI.Applications.Service;
 using AgendaPetAPI.Contexts;
+using AgendaPetAPI.Domains;
 using AgendaPetAPI.Interfaces;
 using AgendaPetAPI.Repositories;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -83,7 +83,7 @@ builder.Services.AddScoped<ILogAgendamentoRepository, LogAgendamentoRepository>(
 builder.Services.AddScoped<LogAgendamentoService>();
 
 //Usuario 
-builder.Services.AddScoped<IUsuarioRepository,  UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioService>();
 
 //Pet 
@@ -94,9 +94,21 @@ builder.Services.AddScoped<PetService>();
 builder.Services.AddScoped<GeradorTokenJWT>();
 builder.Services.AddScoped<AutenticacaoService>();
 
-var app = builder.Build();
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -106,6 +118,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
