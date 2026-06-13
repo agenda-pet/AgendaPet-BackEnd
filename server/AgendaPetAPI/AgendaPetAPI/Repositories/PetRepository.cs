@@ -12,10 +12,11 @@ namespace AgendaPetAPI.Repositories
 
         public List<Pet> Listar() => _context.Pet.Include(p => p.Usuario)
                                                  .Include(p => p.Comportamento)
-                                                 .Include(p => p.Raca).Include(p => p.TipoAnimal)
+                                                 .Include(p => p.Raca)
+                                                 .Include(p => p.TipoAnimal)
                                                  .Include(p => p.Porte)
-                                                 .OrderBy(p => p.Nome).ToList();
-
+                                                 .OrderBy(p => p.Nome)
+                                                 .ToList();
         public Pet ObterPorId(Guid id) => _context.Pet.Find(id);
         public List<Pet> ObterPorTutor(Guid tutorId)
         {

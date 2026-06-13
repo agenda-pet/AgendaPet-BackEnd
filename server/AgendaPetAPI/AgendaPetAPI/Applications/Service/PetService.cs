@@ -37,9 +37,13 @@ namespace AgendaPetAPI.Applications.Service
                 PetID = pet.PetID,
                 Nome = pet.Nome,
                 PorteID = pet.PorteID,
+                Porte = pet.Porte.NomePorte,
                 RacaID = pet.RacaID,
+                Raca = pet.Raca.NomeRaca,
                 ComportamentoID = pet.ComportamentoID,
+                Comportamento = pet.Comportamento.NomeComportamento,
                 TipoAnimalID = pet.TipoAnimalID,
+                TipoAnimal = pet.TipoAnimal.NomeTipo,
                 NomeDono = pet.Usuario.Nome,
             }).ToList();
 
