@@ -90,6 +90,10 @@ builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<PetService>();
 
+//Agendamento
+builder.Services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
+builder.Services.AddScoped<AgendamentoService>();
+
 //JWT
 builder.Services.AddScoped<GeradorTokenJWT>();
 builder.Services.AddScoped<AutenticacaoService>();

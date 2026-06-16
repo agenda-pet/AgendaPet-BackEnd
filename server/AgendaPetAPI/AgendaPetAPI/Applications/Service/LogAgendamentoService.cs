@@ -23,7 +23,7 @@ namespace AgendaPetAPI.Applications.Service
             {
                 LogAgendamentoID = log.LogAgendamentoID,
                 DataModificacao = log.DataModificacao,
-                DataAnteriorAgendamento = log.DataAnteriorAgendamento,
+                DataAnteriorAgendamento = log.DataAnteriorAgendameto,
                 StatusAgendamentoAnterior = log.StatusAgendamentoAnterior,
                 ServicosPorAgendamento = log.ServicosPorAgendamento,
                 AgendamentoID = log.AgendamentoID,
@@ -41,7 +41,7 @@ namespace AgendaPetAPI.Applications.Service
             {
                 LogAgendamentoID = log.LogAgendamentoID,
                 DataModificacao = log.DataModificacao,
-                DataAnteriorAgendamento = log.DataAnteriorAgendamento,
+                DataAnteriorAgendamento = log.DataAnteriorAgendameto,
                 StatusAgendamentoAnterior = log.StatusAgendamentoAnterior,
                 ServicosPorAgendamento = log.ServicosPorAgendamento,
                 AgendamentoID = log.AgendamentoID,
