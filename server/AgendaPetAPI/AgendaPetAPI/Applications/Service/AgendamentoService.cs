@@ -8,10 +8,11 @@ namespace AgendaPetAPI.Applications.Service
     public class AgendamentoService
     {
         private readonly IAgendamentoRepository _repository;
-
-        public AgendamentoService(IAgendamentoRepository repository)
+        private readonly IServicoRepository _servicoRepository;
+        public AgendamentoService(IAgendamentoRepository repository, IServicoRepository servicoRepository)
         {
             _repository = repository;
+            _servicoRepository = servicoRepository;
         }
 
         public List<LerAgendamentoDto> Listar()
@@ -67,6 +68,60 @@ namespace AgendaPetAPI.Applications.Service
                     ? string.Join(", ", a.Servico.Select(s => s.NomeServico))
                     : "Nenhum serviço associado"
             };
+        }
+
+        public void Adicionar(CriarAgendamentoDto agendamentoDto)
+        {
+            if(agendamentoDto.ServicosIds == null || !agendamentoDto.ServicosIds.Any())
+            {
+                throw new DomainException("É necessário colocar pelo menos um serviço para o agendamento.");
+            }
+
+            List<Servico> listaServicosSelecionados = new List<Servico>();
+            decimal valorTotalCalculado = 0;
+            int tempoTotalCalculado = 0;
+
+            foreach (var servicoID in agendamentoDto.ServicosIds)
+            {
+                Servico servicoBanco = _servicoRepository.ObterPorId(servicoID);
+            
+                if(servicoBanco == null)
+                {
+                    throw new DomainException("Serviço não encontrado.");
+                }
+
+                listaServicosSelecionados.Add(servicoBanco);
+                valorTotalCalculado += servicoBanco.Preco;
+                tempoTotalCalculado += servicoBanco.TempoServico;
+            }
+
+            Agendamento agendamento = new Agendamento
+            {
+                AgendamentoID = Guid.NewGuid(),
+                DataAgendamento = agendamentoDto.DataAgendamento,
+                HoraAgendamento = agendamentoDto.HoraAgendamento,
+                StatusAgendamentoID = agendamentoDto.StatusAgendamentoID,
+                FuncionarioID = agendamentoDto.FuncionarioID,
+                PetID = agendamentoDto.PetID,
+                ValorTotal = valorTotalCalculado,
+                TempoTotal = tempoTotalCalculado,
+                Servico = listaServicosSelecionados
+            };
+
+            _repository.Adicionar(agendamento);
+
+            LogAgendamento logInicial = new LogAgendamento
+            {
+                LogAgendamentoID = Guid.NewGuid(),
+                AgendamentoID = agendamento.AgendamentoID,
+                DataModificacao = DateTime.Now,
+                DataAnteriorAgendameto = agendamento.DataAgendamento.ToDateTime(agendamento.HoraAgendamento),
+
+                StatusAgendamentoAnterior = "Pendente",
+                ServicosPorAgendamento = string.Join(", ", listaServicosSelecionados.Select(s => s.NomeServico))
+            };
+
+            _repository.AdicionarLog(logInicial);
         }
     }
 }

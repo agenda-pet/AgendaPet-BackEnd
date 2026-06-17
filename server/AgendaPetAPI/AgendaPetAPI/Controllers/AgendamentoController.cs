@@ -44,5 +44,19 @@ namespace AgendaPetAPI.Controllers
             List<LerAgendamentoDto> agendamentos = _service.ListarAgendamentoPorTutor(tutorId);
             return Ok(agendamentos);
         }
+
+        [HttpPost]
+        public ActionResult Adicionar(CriarAgendamentoDto agendamentoDto)
+        {
+            try
+            {
+                _service.Adicionar(agendamentoDto);
+                return Created();
+            }
+            catch(DomainException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     } 
 }
