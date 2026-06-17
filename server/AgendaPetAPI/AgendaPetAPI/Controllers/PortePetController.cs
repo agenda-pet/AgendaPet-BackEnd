@@ -1,5 +1,4 @@
 ﻿using AgendaPetAPI.Applications.Service;
-using AgendaPetAPI.Applications.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

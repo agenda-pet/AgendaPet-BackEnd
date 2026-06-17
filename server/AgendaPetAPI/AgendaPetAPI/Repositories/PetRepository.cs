@@ -22,8 +22,10 @@ namespace AgendaPetAPI.Repositories
         {
             List<Pet> pets = _context.Pet.Include(p => p.Usuario)
                                                  .Include(p => p.Comportamento)
-                                                 .Include(p => p.Raca).Include(p => p.TipoAnimal)
+                                                 .Include(p => p.Raca)
+                                                 .Include(p => p.TipoAnimal)
                                                  .Include(p => p.Porte)
+                                                 .OrderBy(p => p.Nome)
                                                  .Where(t => t.UsuarioID.Equals(tutorId)).ToList();
             return pets;
         }
@@ -31,8 +33,10 @@ namespace AgendaPetAPI.Repositories
         {
             List<Pet> pets = _context.Pet.Include(p => p.Usuario)
                                                  .Include(p => p.Comportamento)
-                                                 .Include(p => p.Raca).Include(p => p.TipoAnimal)
+                                                 .Include(p => p.Raca)
+                                                 .Include(p => p.TipoAnimal)
                                                  .Include(p => p.Porte)
+                                                 .OrderBy(p => p.Nome)
                                                  .Where(t => t.Nome.Contains(nome)).ToList();
             return pets;
         }

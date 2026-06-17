@@ -1,6 +1,5 @@
 ﻿using AgendaPetAPI.Domains;
 using AgendaPetAPI.DTOs.RacaPetDTO;
-using AgendaPetAPI.DTOs.RacaPetDTO;
 using AgendaPetAPI.Interfaces;
 
 namespace AgendaPetAPI.Applications.Service

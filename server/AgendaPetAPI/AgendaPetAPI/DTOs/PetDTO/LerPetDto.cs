@@ -8,17 +8,12 @@ namespace AgendaPetAPI.DTOs.PetDTO
 
         public string Nome { get; set; } = null!;
 
-        public Guid TipoAnimalID { get; set; }
-        public string TipoAnimal { get; set; }
+        public string nomeTipo { get; set; }
 
-        public Guid ComportamentoID { get; set; }
-        public string Comportamento { get; set; }
+        public string nomeComportamento{ get; set; }
+        public string nomeRaca{ get; set; }
 
-        public Guid RacaID { get; set; }
-        public string Raca { get; set; }
-
-        public Guid PorteID { get; set; }
-        public string Porte { get; set; }
+        public string nomePorte{ get; set; }
         public string NomeDono { get; set; }
 
         public virtual ICollection<Agendamento> Agendamentos { get; set; } = new List<Agendamento>();

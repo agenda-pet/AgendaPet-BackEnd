@@ -36,14 +36,10 @@ namespace AgendaPetAPI.Applications.Service
             {
                 PetID = pet.PetID,
                 Nome = pet.Nome,
-                PorteID = pet.PorteID,
-                Porte = pet.Porte.NomePorte,
-                RacaID = pet.RacaID,
-                Raca = pet.Raca.NomeRaca,
-                ComportamentoID = pet.ComportamentoID,
-                Comportamento = pet.Comportamento.NomeComportamento,
-                TipoAnimalID = pet.TipoAnimalID,
-                TipoAnimal = pet.TipoAnimal.NomeTipo,
+                nomePorte = pet.Porte.NomePorte,
+                nomeRaca = pet.Raca.NomeRaca,
+                nomeComportamento = pet.Comportamento.NomeComportamento,
+                nomeTipo = pet.TipoAnimal.NomeTipo,
                 NomeDono = pet.Usuario.Nome,
             }).ToList();
 
@@ -60,10 +56,10 @@ namespace AgendaPetAPI.Applications.Service
             {
                 PetID = pet.PetID,
                 Nome = pet.Nome,
-                PorteID = pet.PorteID,
-                RacaID = pet.RacaID,
-                ComportamentoID = pet.ComportamentoID,
-                TipoAnimalID = pet.TipoAnimalID,
+                nomePorte = pet.Porte.NomePorte,
+                nomeRaca = pet.Raca.NomeRaca,
+                nomeComportamento = pet.Comportamento.NomeComportamento,
+                nomeTipo = pet.TipoAnimal.NomeTipo,
                 NomeDono = pet.Usuario.Nome,
             };
 
@@ -80,10 +76,10 @@ namespace AgendaPetAPI.Applications.Service
             {
                 PetID = pet.PetID,
                 Nome = pet.Nome,
-                PorteID = pet.PorteID,
-                RacaID = pet.RacaID,
-                ComportamentoID = pet.ComportamentoID,
-                TipoAnimalID = pet.TipoAnimalID,
+                nomePorte = pet.Porte.NomePorte,
+                nomeRaca = pet.Raca.NomeRaca,
+                nomeComportamento = pet.Comportamento.NomeComportamento,
+                nomeTipo = pet.TipoAnimal.NomeTipo,
                 NomeDono = pet.Usuario.Nome,
             }).ToList();
 
@@ -100,10 +96,10 @@ namespace AgendaPetAPI.Applications.Service
             {
                 PetID = pet.PetID,
                 Nome = pet.Nome,
-                PorteID = pet.PorteID,
-                RacaID = pet.RacaID,
-                ComportamentoID = pet.ComportamentoID,
-                TipoAnimalID = pet.TipoAnimalID,
+                nomePorte = pet.Porte.NomePorte,
+                nomeRaca = pet.Raca.NomeRaca,
+                nomeComportamento = pet.Comportamento.NomeComportamento,
+                nomeTipo = pet.TipoAnimal.NomeTipo,
                 NomeDono = pet.Usuario.Nome,
             }).ToList();
 
