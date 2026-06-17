@@ -1,8 +1,10 @@
 ﻿using AgendaPetAPI.Applications.Service;
 using AgendaPetAPI.DTOs.AgendamentoDTO;
 using AgendaPetAPI.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace AgendaPetAPI.Controllers
 {
@@ -17,7 +19,20 @@ namespace AgendaPetAPI.Controllers
             _service = service;
         }
 
+        private Guid ObterUsuarioLogado()
+        {
+            string? idTexto = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if(string.IsNullOrWhiteSpace(idTexto))
+            {
+                throw new DomainException("Usuário não autenticado");
+            }
+
+            return Guid.Parse(idTexto);
+        }
+
         [HttpGet]
+        [Authorize]
         public ActionResult<List<LerAgendamentoDto>> Listar()
         {
             List<LerAgendamentoDto> agendamentos = _service.Listar();
@@ -25,6 +40,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<LerAgendamentoDto> ObterPorId(Guid id)
         {
             try
@@ -39,6 +55,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("Tutor/{tutorId}")]
+        [Authorize]
         public ActionResult<List<LerAgendamentoDto>> ListarPorTutor(Guid tutorId)
         {
             List<LerAgendamentoDto> agendamentos = _service.ListarAgendamentoPorTutor(tutorId);
@@ -46,12 +63,31 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Adicionar(CriarAgendamentoDto agendamentoDto)
         {
             try
             {
-                _service.Adicionar(agendamentoDto);
+                Guid funcionarioUserID = ObterUsuarioLogado();
+
+                _service.Adicionar(agendamentoDto, funcionarioUserID);
                 return Created();
+            }
+            catch(DomainException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Atualizar(Guid id, AtualizarAgendamentoDto agendamentoDto)
+        {
+            try
+            {
+                Guid funcionarioUserID = ObterUsuarioLogado();
+
+                _service.Atualizar(id, agendamentoDto, funcionarioUserID);
+                return Ok();
             }
             catch(DomainException ex)
             {

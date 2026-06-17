@@ -9,10 +9,14 @@ namespace AgendaPetAPI.Applications.Service
     {
         private readonly IAgendamentoRepository _repository;
         private readonly IServicoRepository _servicoRepository;
-        public AgendamentoService(IAgendamentoRepository repository, IServicoRepository servicoRepository)
+        private readonly IPetRepository _petRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
+        public AgendamentoService(IAgendamentoRepository repository, IServicoRepository servicoRepository, IPetRepository petRepository, IUsuarioRepository usuarioRepository)
         {
             _repository = repository;
             _servicoRepository = servicoRepository;
+            _petRepository = petRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
         public List<LerAgendamentoDto> Listar()
@@ -70,11 +74,33 @@ namespace AgendaPetAPI.Applications.Service
             };
         }
 
-        public void Adicionar(CriarAgendamentoDto agendamentoDto)
+        public void Adicionar(CriarAgendamentoDto agendamentoDto, Guid funcionarioLogadoID)
         {
             if(agendamentoDto.ServicosIds == null || !agendamentoDto.ServicosIds.Any())
             {
                 throw new DomainException("É necessário colocar pelo menos um serviço para o agendamento.");
+            }
+
+            if(_petRepository.ObterPorId(agendamentoDto.PetID) == null)
+            {
+                throw new DomainException("O Pet informado não existe no sistema");
+            }
+
+            DateTime dataHoraAgendamento = agendamentoDto.DataAgendamento.ToDateTime(agendamentoDto.HoraAgendamento);
+            if(dataHoraAgendamento < DateTime.Now)
+            {
+                throw new DomainException("Não é possível adicionar um agendamento em uma data ou hora passado.");
+            }
+
+            bool funcionarioOcupado = _repository.Listar()
+                .Any(a => a.FuncionarioID == funcionarioLogadoID &&
+                          a.DataAgendamento == agendamentoDto.DataAgendamento &&
+                          a.HoraAgendamento == agendamentoDto.HoraAgendamento &&
+                          a.StatusAgendamento.NomeStatus != "Cancelado");
+
+            if(funcionarioOcupado)
+            {
+                throw new DomainException("Este funcionário já possui um agendamento neste mesmo dia e horário.");
             }
 
             List<Servico> listaServicosSelecionados = new List<Servico>();
@@ -101,7 +127,7 @@ namespace AgendaPetAPI.Applications.Service
                 DataAgendamento = agendamentoDto.DataAgendamento,
                 HoraAgendamento = agendamentoDto.HoraAgendamento,
                 StatusAgendamentoID = agendamentoDto.StatusAgendamentoID,
-                FuncionarioID = agendamentoDto.FuncionarioID,
+                FuncionarioID = funcionarioLogadoID,
                 PetID = agendamentoDto.PetID,
                 ValorTotal = valorTotalCalculado,
                 TempoTotal = tempoTotalCalculado,
@@ -122,6 +148,74 @@ namespace AgendaPetAPI.Applications.Service
             };
 
             _repository.AdicionarLog(logInicial);
+        }
+
+        public void Atualizar(Guid agendamentoID, AtualizarAgendamentoDto agendamentoDto, Guid funcionarioLogadoID)
+        {
+            Agendamento agendamentoBanco = _repository.BuscarPorId(agendamentoID);
+            if (agendamentoBanco == null)
+            {
+                throw new DomainException("O Agendamento informado não foi encontrado.");
+            }
+
+            if (agendamentoDto.ServicosIds == null || !agendamentoDto.ServicosIds.Any())
+            {
+                throw new DomainException("É necessário colocar pelo menos um serviço para o agendamento.");
+            }
+
+            if (_petRepository.ObterPorId(agendamentoDto.PetID) == null)
+            {
+                throw new DomainException("O Pet informado não existe no sistema");
+            }
+
+            DateTime novaDataHora = agendamentoDto.DataAgendamento.ToDateTime(agendamentoDto.HoraAgendamento);
+            if (novaDataHora < DateTime.Now)
+            {
+                throw new DomainException("Não é possível alterar um agendamento para uma data ou horário passado.");
+            }
+
+            bool horarioOcupado = _repository.Listar()
+                .Any(a => a.FuncionarioID == funcionarioLogadoID &&
+                          a.DataAgendamento == agendamentoDto.DataAgendamento &&
+                          a.HoraAgendamento == agendamentoDto.HoraAgendamento &&
+                          a.AgendamentoID != agendamentoID &&
+                          a.StatusAgendamento.NomeStatus != "Cancelado");
+
+            if (horarioOcupado)
+            {
+                throw new DomainException("Você já possui outro agendamento marcado para este mesmo dia e horário.");
+            }
+
+            List<Servico> novosServicos = new List<Servico>();
+            decimal novoValorTotal = 0;
+            int novoTempoTotal = 0;
+
+            foreach (var servicoId in agendamentoDto.ServicosIds)
+            {
+                var servicoBanco = _servicoRepository.ObterPorId(servicoId);
+                if (servicoBanco == null)
+                {
+                    throw new DomainException($"Serviço não encontrado.");
+                }
+
+                novosServicos.Add(servicoBanco);
+                novoValorTotal += servicoBanco.Preco;
+                novoTempoTotal += servicoBanco.TempoServico;
+            }
+
+            Agendamento agendamentoAtualizado = new Agendamento
+            {
+                DataAgendamento = agendamentoDto.DataAgendamento,
+                HoraAgendamento = agendamentoDto.HoraAgendamento,
+                StatusAgendamentoID = agendamentoDto.StatusAgendamentoID,
+                FuncionarioID = funcionarioLogadoID,
+                PetID = agendamentoDto.PetID,
+                ValorTotal = novoValorTotal,
+                TempoTotal = novoTempoTotal,
+                Servico = novosServicos
+            };
+
+            _repository.Atualizar(agendamentoAtualizado);
         }
     }
 }

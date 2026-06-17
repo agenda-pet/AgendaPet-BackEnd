@@ -5,8 +5,11 @@ using AgendaPetAPI.Domains;
 using AgendaPetAPI.Interfaces;
 using AgendaPetAPI.Repositories;
 using DotNetEnv;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -98,9 +101,66 @@ builder.Services.AddScoped<AgendamentoService>();
 builder.Services.AddScoped<GeradorTokenJWT>();
 builder.Services.AddScoped<AutenticacaoService>();
 
-var app = builder.Build();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+
+    // Adiciona o suporte para autenticação usando JWT.
+    .AddJwtBearer(options =>
+    {
+        // Lê a chave secreta definida no appsettings.json.
+        var chave = Environment.GetEnvironmentVariable("JWT_KEY");
+        //var chave = builder.Configuration["Jwt:Key"]!;
+
+        // Quem emitiu o token.
+        var issuer = builder.Configuration["Jwt:Issuer"]!;
+
+        // Para quem o token foi criado.
+        var audience = builder.Configuration["Jwt:Audience"]!;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            // Verifica se o emissor do token é válido.
+            ValidateIssuer = true,
+
+            // Verifica se o destinatário do token é válido.
+            ValidateAudience = true,
+
+            // Verifica se o token ainda está válido.
+            ValidateLifetime = true,
+
+            // Verifica se a assinatura do token é válida.
+            ValidateIssuerSigningKey = true,
+
+            // Define qual emissor é considerado válido.
+            ValidIssuer = issuer,
+
+            // Define qual audience é considerado válido.
+            ValidAudience = audience,
+
+            // Define qual chave será usada para validar a assinatura do token.
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(chave)
+            ),
+
+            // o token geralmente tem 5 minutos de tolerancia, aqui colocamos para remover essa tolerancia
+            // remove tolerância extra no vencimento do token
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -110,6 +170,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
