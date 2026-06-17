@@ -108,5 +108,33 @@ namespace AgendaPetAPI.Repositories
             _context.LogAgendamento.Add(logAgendamento);
             _context.SaveChanges();
         }
+
+        public void Cancelar(Guid agendamentoId, Guid statusCanceladoId)
+        {
+            Agendamento? agendamentoBanco = _context.Agendamento
+                                                    .Include(a => a.StatusAgendamento)
+                                                    .Include(a => a.Servico)
+                                                    .FirstOrDefault(a => a.AgendamentoID == agendamentoId);
+
+            if(agendamentoBanco == null)
+            {
+                return;
+            }
+
+            LogAgendamento log = new LogAgendamento
+            {
+                LogAgendamentoID = Guid.NewGuid(),
+                AgendamentoID = agendamentoBanco.AgendamentoID,
+                DataModificacao = DateTime.Now,
+                DataAnteriorAgendameto = agendamentoBanco.DataAgendamento.ToDateTime(agendamentoBanco.HoraAgendamento),
+                StatusAgendamentoAnterior = agendamentoBanco.StatusAgendamento.NomeStatus,
+                ServicosPorAgendamento = string.Join(", ", agendamentoBanco.Servico.Select(s => s.NomeServico))
+            };
+
+            agendamentoBanco.StatusAgendamentoID = statusCanceladoId;
+
+            AdicionarLog(log);
+            _context.SaveChanges();
+        }
     }
 }
