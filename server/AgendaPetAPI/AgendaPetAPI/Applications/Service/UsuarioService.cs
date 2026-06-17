@@ -152,9 +152,7 @@ namespace AgendaPetAPI.Applications.Service
             usuario.Nome = usuarioDto.Nome;
             usuario.Email = usuarioDto.Email;
             usuario.NumeroTelefone = usuarioDto.NumeroTelefone;
-            usuario.Senha = SenhaHash.Converter(usuarioDto.Senha) ?? usuario.Senha;
             usuario.TipoUsuarioID = usuarioDto.TipoUsuarioID;
-            usuario.StatusUsuarioID = usuarioDto.StatusUsuarioID;
             
             _repository.Atualizar(id, usuario);
         }

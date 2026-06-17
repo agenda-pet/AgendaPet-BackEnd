@@ -93,7 +93,7 @@ namespace AgendaPetAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("Atualizar/{id}")]
         public IActionResult Atualizar(Guid id, AtualizarUsuarioDto usuarioDto)
         {
             try

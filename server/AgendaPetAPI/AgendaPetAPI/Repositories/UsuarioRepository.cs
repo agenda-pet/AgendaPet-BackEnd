@@ -47,12 +47,10 @@ namespace AgendaPetAPI.Repositories
             if (usuarioBanco == null)
                 return;
 
-            usuarioBanco.UsuarioID = id;
             usuarioBanco.TipoUsuarioID = usuario.TipoUsuarioID;
             usuarioBanco.Nome = usuario.Nome;
             usuarioBanco.Email = usuario.Email;
             usuarioBanco.NumeroTelefone = usuario.NumeroTelefone;
-            usuarioBanco.Senha = usuario.Senha;
 
             _context.Update(usuarioBanco);
             _context.SaveChanges();
