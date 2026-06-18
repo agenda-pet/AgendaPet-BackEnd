@@ -63,7 +63,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Funcionário")]
         public ActionResult Adicionar(CriarAgendamentoDto agendamentoDto)
         {
             try
@@ -80,6 +80,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Funcionário")]
         public ActionResult Atualizar(Guid id, AtualizarAgendamentoDto agendamentoDto)
         {
             try
@@ -87,6 +88,21 @@ namespace AgendaPetAPI.Controllers
                 Guid funcionarioUserID = ObterUsuarioLogado();
 
                 _service.Atualizar(id, agendamentoDto, funcionarioUserID);
+                return Ok();
+            }
+            catch(DomainException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Funcionário")]
+        public ActionResult Cancelar(Guid id)
+        {
+            try
+            {
+                _service.Cancelar(id);
                 return Ok();
             }
             catch(DomainException ex)

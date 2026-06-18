@@ -27,7 +27,6 @@ namespace AgendaPetAPI.Applications.Service
                 StatusAgendamentoAnterior = log.StatusAgendamentoAnterior,
                 ServicosPorAgendamento = log.ServicosPorAgendamento,
                 AgendamentoID = log.AgendamentoID,
-                Agendamento = log.Agendamento
             }).ToList();
 
             return listaLogAgendamento;
@@ -45,7 +44,6 @@ namespace AgendaPetAPI.Applications.Service
                 StatusAgendamentoAnterior = log.StatusAgendamentoAnterior,
                 ServicosPorAgendamento = log.ServicosPorAgendamento,
                 AgendamentoID = log.AgendamentoID,
-                Agendamento = log.Agendamento
             }).ToList();
 
             return listaLogAgendamento;

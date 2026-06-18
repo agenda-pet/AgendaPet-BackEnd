@@ -15,7 +15,5 @@ namespace AgendaPetAPI.DTOs.LerLogAgendamentoDto
         public string ServicosPorAgendamento { get; set; } = null!;
 
         public Guid AgendamentoID { get; set; }
-
-        public virtual Agendamento Agendamento { get; set; } = null!;
     }
 }

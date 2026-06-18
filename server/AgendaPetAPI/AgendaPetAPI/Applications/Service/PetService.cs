@@ -1,5 +1,6 @@
 ﻿using AgendaPetAPI.Domains;
 using AgendaPetAPI.DTOs.PetDTO;
+using AgendaPetAPI.DTOs.UsuarioDTO;
 using AgendaPetAPI.Exceptions;
 using AgendaPetAPI.Interfaces;
 using AgendaPetAPI.Repositories;
@@ -41,6 +42,13 @@ namespace AgendaPetAPI.Applications.Service
                 ComportamentoID = pet.ComportamentoID,
                 TipoAnimalID = pet.TipoAnimalID,
                 UsuarioID = pet.UsuarioID,
+                Agendamentos = pet.Agendamento != null
+                    ? pet.Agendamento.Where(a => a.StatusAgendamento.NomeStatus != "Cancelado").Select(p => new AgendamentoPorPetDto
+                    {
+                        AgendamentoId = p.AgendamentoID,
+                        DataAgendamento = p.DataAgendamento
+                    }).ToList()
+                    : new List<AgendamentoPorPetDto>()
             }).ToList();
 
             return PetDto;
@@ -61,6 +69,13 @@ namespace AgendaPetAPI.Applications.Service
                 ComportamentoID = pet.ComportamentoID,
                 TipoAnimalID = pet.TipoAnimalID,
                 UsuarioID = pet.UsuarioID,
+                Agendamentos = pet.Agendamento != null
+                    ? pet.Agendamento.Where(a => a.StatusAgendamento.NomeStatus != "Cancelado").Select(p => new AgendamentoPorPetDto
+                    {
+                        AgendamentoId = p.AgendamentoID,
+                        DataAgendamento = p.DataAgendamento
+                    }).ToList()
+                    : new List<AgendamentoPorPetDto>()
             };
 
             return petDto;
@@ -81,6 +96,13 @@ namespace AgendaPetAPI.Applications.Service
                 ComportamentoID = pet.ComportamentoID,
                 TipoAnimalID = pet.TipoAnimalID,
                 UsuarioID = pet.UsuarioID,
+                Agendamentos = pet.Agendamento != null
+                    ? pet.Agendamento.Where(a => a.StatusAgendamento.NomeStatus != "Cancelado").Select(p => new AgendamentoPorPetDto
+                    {
+                        AgendamentoId = p.AgendamentoID,
+                        DataAgendamento = p.DataAgendamento
+                    }).ToList()
+                    : new List<AgendamentoPorPetDto>()
             };
 
             return petDto;

@@ -4,6 +4,6 @@
     {
         public Guid TipoUsuarioID { get; set; }
 
-        public string NomeRaca { get; set; } = null!;
+        public string NomeTipo { get; set; } = null!;
     }
 }

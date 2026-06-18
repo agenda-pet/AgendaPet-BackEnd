@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AgendaPetAPI.Applications.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using AgendaPetAPI.Applications.Service;
 
 namespace AgendaPetAPI.Controllers
 {
@@ -16,6 +17,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Funcionário")]
         public ActionResult Listar()
         {
             try
@@ -30,6 +32,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("produto/{id}")]
+        [Authorize(Roles = "Funcionário")]
         public ActionResult ListarID(Guid id)
         {
             try

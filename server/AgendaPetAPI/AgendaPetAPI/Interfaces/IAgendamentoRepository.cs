@@ -10,6 +10,6 @@ namespace AgendaPetAPI.Interfaces
         void Adicionar(Agendamento agendamento);
         void Atualizar(Agendamento agendamento);
         void AdicionarLog(LogAgendamento logAgendamento);
-        void Cancelar(Guid agendamentoId);
+        void Cancelar(Guid agendamentoId, Guid statusAgendamentoId);
     }
 }

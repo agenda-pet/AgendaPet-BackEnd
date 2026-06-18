@@ -11,12 +11,14 @@ namespace AgendaPetAPI.Applications.Service
         private readonly IServicoRepository _servicoRepository;
         private readonly IPetRepository _petRepository;
         private readonly IUsuarioRepository _usuarioRepository;
-        public AgendamentoService(IAgendamentoRepository repository, IServicoRepository servicoRepository, IPetRepository petRepository, IUsuarioRepository usuarioRepository)
+        private readonly IStatusAgendamentoRepository _statusRepository;
+        public AgendamentoService(IAgendamentoRepository repository, IServicoRepository servicoRepository, IPetRepository petRepository, IUsuarioRepository usuarioRepository, IStatusAgendamentoRepository statusRepository)
         {
             _repository = repository;
             _servicoRepository = servicoRepository;
             _petRepository = petRepository;
             _usuarioRepository = usuarioRepository;
+            _statusRepository = statusRepository;
         }
 
         public List<LerAgendamentoDto> Listar()
@@ -216,6 +218,34 @@ namespace AgendaPetAPI.Applications.Service
             };
 
             _repository.Atualizar(agendamentoAtualizado);
+        }
+
+        public void Cancelar(Guid agendamentoId)
+        {
+            Agendamento agendamentoBanco = _repository.BuscarPorId(agendamentoId);
+            if(agendamentoBanco == null)
+            {
+                throw new DomainException("Agendamento não encontrado.");
+            }
+
+            if(agendamentoBanco.StatusAgendamento.NomeStatus == "Concluído")
+            {
+                throw new DomainException("Não é possível cancelar um agendamento que já foi concluído.");
+            }
+
+            if (agendamentoBanco.StatusAgendamento.NomeStatus == "Cancelado")
+            {
+                throw new DomainException("Este agendamento já está cancelado.");
+            }
+
+            StatusAgendamento? statusCancelado = _statusRepository.Listar().FirstOrDefault(s => s.NomeStatus == "Cancelado");
+        
+            if(statusCancelado == null)
+            {
+                throw new DomainException("O status 'Cancelado' não foi encontrado no sistema.");
+            }
+
+            _repository.Cancelar(agendamentoId, statusCancelado.StatusAgendamentoID);
         }
     }
 }
