@@ -104,7 +104,7 @@ namespace AgendaPetAPI.Applications.Service
                         DataAgendamento = p.DataAgendamento
                     }).ToList()
                     : new List<AgendamentoPorPetDto>()
-            };
+            }).ToList();
             return petsDto;
         }
 

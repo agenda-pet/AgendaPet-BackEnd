@@ -1,4 +1,5 @@
 ﻿using AgendaPetAPI.Applications.Service;
+using AgendaPetAPI.DTOs.AutenticacaoDTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +13,11 @@ namespace AgendaPetAPI.Controllers
         public AutenticacaoController(AutenticacaoService service) => _service = service;
 
         [HttpPost]
-        public IActionResult Login(string email, string senha)
+        public IActionResult Login(LoginDto loginDto)
         {
             try
             {
-                return Ok(_service.Login(email, senha));
+                return Ok(_service.Login(loginDto.email, loginDto.senha));
             }
             catch (Exception ex)
             {

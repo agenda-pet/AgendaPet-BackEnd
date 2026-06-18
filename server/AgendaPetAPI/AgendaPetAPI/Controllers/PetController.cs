@@ -47,7 +47,7 @@ namespace AgendaPetAPI.Controllers
         {
             try
             {
-                return Ok(_service.ObterPorNome(nome));
+                return Ok(_service.ObterTutorPorId(tutorId));
             }
             catch (Exception ex)
             {
