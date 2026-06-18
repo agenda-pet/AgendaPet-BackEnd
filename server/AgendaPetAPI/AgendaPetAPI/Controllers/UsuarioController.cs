@@ -1,5 +1,6 @@
 ﻿using AgendaPetAPI.Applications.Service;
 using AgendaPetAPI.DTOs.UsuarioDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
@@ -15,6 +16,7 @@ namespace AgendaPetAPI.Controllers
         public UsuarioController(UsuarioService suarioService) => _service = suarioService;
 
         [HttpGet]
+        [Authorize]
         public IActionResult Listar()
         {
             try
@@ -28,6 +30,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("UsuarioId/{id}")]
+        [Authorize]
         public IActionResult ObterPorId(Guid id)
         {
             try
@@ -41,6 +44,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("UsuarioNome/{nome}")]
+        [Authorize]
         public IActionResult ObterPorNome(string nome)
         {
             try
@@ -54,6 +58,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("UsuarioEmail/{email}")]
+        [Authorize]
         public IActionResult ObterPorEmail(string email)
         {
             try
@@ -67,6 +72,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("UsuarioTelefone/{telefone}")]
+        [Authorize]
         public IActionResult ObterPorTelefone(string telefone)
         {
             try
@@ -80,6 +86,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Funcionário")]
         public IActionResult Adicionar(CriarUsuarioDto criarUsuarioDto)
         {
             try
@@ -93,7 +100,8 @@ namespace AgendaPetAPI.Controllers
             }
         }
 
-        [HttpPatch("Atualizar/{id}")]
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Funcionário")]
         public IActionResult Atualizar(Guid id, AtualizarUsuarioDto usuarioDto)
         {
             try
@@ -108,6 +116,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpPatch("{id}")]
+        [Authorize(Roles = "Funcionário")]
         public IActionResult AtualizarSenha(Guid id, string senha)
         {
             try
@@ -122,6 +131,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Funcionário")]
         public IActionResult Remover(Guid id)
         {
             try

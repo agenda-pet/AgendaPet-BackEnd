@@ -16,6 +16,6 @@ namespace AgendaPetAPI.DTOs.UsuarioDTO
 
         public bool? StatusUsuarioID { get; set; }
 
-        public List<string> NomePet { get; set; }
+        public List<PetTutorDto> Pets { get; set; } = new List<PetTutorDto>();
     }
 }

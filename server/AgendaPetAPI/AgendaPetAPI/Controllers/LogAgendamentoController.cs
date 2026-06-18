@@ -7,14 +7,18 @@ namespace AgendaPetAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TipoAnimalController : ControllerBase
+    public class LogAgendamentoController : ControllerBase
     {
-        private readonly TipoAnimalService _service;
-        public TipoAnimalController(TipoAnimalService service) => _service = service;
+        private readonly LogAgendamentoService _service;
+
+        public LogAgendamentoController(LogAgendamentoService service)
+        {
+            _service = service;
+        }
 
         [HttpGet]
-        [Authorize]
-        public IActionResult Listar()
+        [Authorize(Roles = "Funcionário")]
+        public ActionResult Listar()
         {
             try
             {
@@ -24,20 +28,22 @@ namespace AgendaPetAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
+
         }
 
-        [HttpGet("{id}")]
-        [Authorize]
-        public IActionResult ObterPorId(Guid id)
+        [HttpGet("produto/{id}")]
+        [Authorize(Roles = "Funcionário")]
+        public ActionResult ListarID(Guid id)
         {
             try
             {
-                return Ok(_service.ObterPorId(id));
+                return Ok(_service.ListarPorID(id));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+
         }
     }
 }

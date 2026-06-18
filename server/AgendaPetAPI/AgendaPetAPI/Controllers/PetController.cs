@@ -1,5 +1,6 @@
 ﻿using AgendaPetAPI.Applications.Service;
 using AgendaPetAPI.DTOs.PetDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace AgendaPetAPI.Controllers
         public PetController(PetService Petervice) => _service = Petervice;
 
         [HttpGet]
+        [Authorize]
         public IActionResult Listar()
         {
             try
@@ -26,6 +28,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult ObterPorId(Guid id)
         {
             try
@@ -37,8 +40,10 @@ namespace AgendaPetAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("Nome/{nome}")]
-        public IActionResult ObterPorId(string nome)
+
+        [HttpGet("TutorId/{tutorId}/PetId/{petId}")]
+        [Authorize]
+        public IActionResult ObterTutorPorId(Guid tutorId, Guid petId)
         {
             try
             {
@@ -64,6 +69,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Funcionário")]
         public IActionResult Adicionar(CriarPetDto petDto)
         {
             try
@@ -78,6 +84,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpPut ("{id}")]
+        [Authorize(Roles = "Funcionário")]
         public IActionResult Atualizar(Guid id, AtualizarPetDto petDto)
         {
             try
@@ -92,6 +99,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Funcionário")]
         public IActionResult Remover(Guid id)
         {
             try

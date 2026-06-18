@@ -31,7 +31,15 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
-                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
+
+                Pets = usuario.Pet != null
+                    ? usuario.Pet.Select(p => new PetTutorDto
+                    {
+                        PetID = p.PetID,
+                        Nome = p.Nome
+                    }).ToList()
+                    : new List<PetTutorDto>()
+
             }).ToList();
 
             return usuariosDto;
@@ -51,7 +59,13 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
-                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
+                Pets = usuario.Pet != null
+                    ? usuario.Pet.Select(p => new PetTutorDto
+                    {
+                        PetID = p.PetID,
+                        Nome = p.Nome
+                    }).ToList()
+                    : new List<PetTutorDto>()
             };
 
             return usuarioDto;
@@ -71,7 +85,13 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
-                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
+                Pets = usuario.Pet != null
+                    ? usuario.Pet.Select(p => new PetTutorDto
+                    {
+                        PetID = p.PetID,
+                        Nome = p.Nome
+                    }).ToList()
+                    : new List<PetTutorDto>()
             }).ToList();
 
             return usuariosDto;
@@ -91,8 +111,13 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
-                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
-
+                Pets = usuario.Pet != null
+                    ? usuario.Pet.Select(p => new PetTutorDto
+                    {
+                        PetID = p.PetID,
+                        Nome = p.Nome
+                    }).ToList()
+                    : new List<PetTutorDto>()
             };
 
             return usuarioDto;
@@ -112,7 +137,13 @@ namespace AgendaPetAPI.Applications.Service
                 NumeroTelefone = usuario.NumeroTelefone,
                 TipoUsuarioID = usuario.TipoUsuarioID,
                 StatusUsuarioID = usuario.StatusUsuarioID,
-                NomePet = usuario.Pet.Select(p => p.Nome).ToList()
+                Pets = usuario.Pet != null
+                    ? usuario.Pet.Select(p => new PetTutorDto
+                    {
+                        PetID = p.PetID,
+                        Nome = p.Nome
+                    }).ToList()
+                    : new List<PetTutorDto>()
             };
 
             return usuarioDto;

@@ -18,7 +18,7 @@ namespace AgendaPetAPI.Applications.Service
             List<LerTipoUsuarioDto> tipoUsuarioDto = tipoUsuario.Select(tipo => new LerTipoUsuarioDto
             {
                 TipoUsuarioID = tipo.TipoUsuarioID,
-                NomeRaca = tipo.NomeTipo,
+                NomeTipo = tipo.NomeTipo,
             }).ToList();
 
             return tipoUsuarioDto;
@@ -33,7 +33,7 @@ namespace AgendaPetAPI.Applications.Service
             LerTipoUsuarioDto tipoDto = new LerTipoUsuarioDto
             {
                 TipoUsuarioID = tipo.TipoUsuarioID,
-                NomeRaca = tipo.NomeTipo,
+                NomeTipo = tipo.NomeTipo,
             };
 
             return tipoDto;

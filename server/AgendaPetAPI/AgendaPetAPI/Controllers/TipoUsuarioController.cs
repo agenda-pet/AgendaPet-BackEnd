@@ -1,4 +1,5 @@
 ﻿using AgendaPetAPI.Applications.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace AgendaPetAPI.Controllers
         public TipoUsuarioController(TipoUsuarioService service) => _service = service;
 
         [HttpGet]
+        [Authorize]
         public IActionResult Listar()
         {
             try
@@ -25,6 +27,7 @@ namespace AgendaPetAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult ObterPorId(Guid id)
         {
             try
