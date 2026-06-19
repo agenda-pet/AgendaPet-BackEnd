@@ -56,9 +56,9 @@ namespace AgendaPetAPI.Repositories
             _context.SaveChanges();
         }
 
-        public void AtualizarSenha(Guid id, string senha)
+        public void AtualizarSenha(string email, string senha)
         {
-            Usuario usuario = _context.Usuario.Find(id);
+            Usuario usuario = _context.Usuario.FirstOrDefault(u => u.Email == email);
             if (usuario == null)
                 return;
 

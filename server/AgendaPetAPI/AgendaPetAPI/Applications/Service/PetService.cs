@@ -37,10 +37,15 @@ namespace AgendaPetAPI.Applications.Service
             {
                 PetID = pet.PetID,
                 Nome = pet.Nome,
+                PorteID = pet.PorteID,
                 nomePorte = pet.Porte.NomePorte,
+                RacaID = pet.RacaID,
                 nomeRaca = pet.Raca.NomeRaca,
+                ComportamentoID = pet.ComportamentoID,
                 nomeComportamento = pet.Comportamento.NomeComportamento,
+                TipoAnimalID = pet.TipoAnimalID,
                 nomeTipo = pet.TipoAnimal.NomeTipo,
+                UsuarioID = pet.UsuarioID,
                 NomeDono = pet.Usuario.Nome,
                 Agendamentos = pet.Agendamento != null
                     ? pet.Agendamento.Where(a => a.StatusAgendamento.NomeStatus != "Cancelado").Select(p => new AgendamentoPorPetDto
@@ -64,11 +69,15 @@ namespace AgendaPetAPI.Applications.Service
             {
                 PetID = pet.PetID,
                 Nome = pet.Nome,
-
+                PorteID = pet.PorteID,
                 nomePorte = pet.Porte.NomePorte,
+                RacaID = pet.RacaID,
                 nomeRaca = pet.Raca.NomeRaca,
+                ComportamentoID = pet.ComportamentoID,
                 nomeComportamento = pet.Comportamento.NomeComportamento,
+                TipoAnimalID = pet.TipoAnimalID,
                 nomeTipo = pet.TipoAnimal.NomeTipo,
+                UsuarioID = pet.UsuarioID,
                 NomeDono = pet.Usuario.Nome,
                 Agendamentos = pet.Agendamento != null
                     ? pet.Agendamento.Where(a => a.StatusAgendamento.NomeStatus != "Cancelado").Select(p => new AgendamentoPorPetDto
@@ -138,7 +147,7 @@ namespace AgendaPetAPI.Applications.Service
 
             else if (_racaRepository.ObterPorId(pet.RacaID) == null)
                 throw new DomainException("Raça animal id invalida!!!");
-            
+
             else if (_porteRepository.ObterPorId(pet.PorteID) == null)
                 throw new DomainException("Porte id invalido!!!");
 
@@ -189,7 +198,7 @@ namespace AgendaPetAPI.Applications.Service
         public void Remover(Guid id)
         {
             Pet pet = _repository.ObterPorId(id);
-            if (pet == null) 
+            if (pet == null)
                 throw new DomainException("Pet id inválido!!!");
 
             _repository.Remover(id);

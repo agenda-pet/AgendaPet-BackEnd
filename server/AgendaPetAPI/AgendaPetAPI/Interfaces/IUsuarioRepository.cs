@@ -11,7 +11,7 @@ namespace AgendaPetAPI.Interfaces
         public Usuario ObterPorTelefone(string telefone);
         public void Adicionar(Usuario usuario);
         public void Atualizar(Guid id, Usuario usuario);
-        public void AtualizarSenha(Guid id, string senha);
+        public void AtualizarSenha(string email, string senha);
         public void Remover(Guid id);
     }
 }
