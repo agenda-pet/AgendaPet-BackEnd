@@ -151,7 +151,7 @@ namespace AgendaPetAPI.Applications.Service
 
         public void Adicionar(CriarUsuarioDto usuarioDto)
         {
-            if (usuarioDto == null || usuarioDto.Nome == null || usuarioDto.TipoUsuarioID == null || usuarioDto.Email == null || usuarioDto.Senha == null)
+            if (usuarioDto == null || usuarioDto.Nome == null || usuarioDto.TipoUsuarioID == null || usuarioDto.Email == null)
                 throw new DomainException("Dados invalidos");
 
             if (_tipoUsuarioRepository.ObterPorId(usuarioDto.TipoUsuarioID) == null)
@@ -161,7 +161,7 @@ namespace AgendaPetAPI.Applications.Service
             {
                 Nome = usuarioDto.Nome,
                 Email = usuarioDto.Email,
-                Senha = SenhaHash.Converter(usuarioDto.Senha),
+                Senha = SenhaHash.Converter("123"),
                 NumeroTelefone = usuarioDto.NumeroTelefone,
                 TipoUsuarioID = usuarioDto.TipoUsuarioID,
                 StatusUsuarioID = usuarioDto.StatusUsuarioID,
