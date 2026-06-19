@@ -164,7 +164,7 @@ namespace AgendaPetAPI.Applications.Service
                 Senha = SenhaHash.Converter("123"),
                 NumeroTelefone = usuarioDto.NumeroTelefone,
                 TipoUsuarioID = usuarioDto.TipoUsuarioID,
-                StatusUsuarioID = usuarioDto.StatusUsuarioID,
+                StatusUsuarioID = true,
             };
 
             _repository.Adicionar(usuario);
@@ -188,12 +188,12 @@ namespace AgendaPetAPI.Applications.Service
             _repository.Atualizar(id, usuario);
         }
 
-        public void AtualizarSenha(Guid id, string senha)
+        public void AtualizarSenha(string email, string senha)
         {
-            if (_repository.ObterPorId(id) == null)
+            if (_repository.ObterPorEmail(email) == null)
                 throw new DomainException("Usuario id invalido!!!");
 
-            _repository.AtualizarSenha(id, senha);
+            _repository.AtualizarSenha(email, senha);
         }
 
         public void Remover(Guid id)

@@ -100,7 +100,7 @@ namespace AgendaPetAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPatch("Atualizar/{id}")]
         [Authorize(Roles = "Funcionário")]
         public IActionResult Atualizar(Guid id, AtualizarUsuarioDto usuarioDto)
         {
@@ -115,13 +115,13 @@ namespace AgendaPetAPI.Controllers
             }
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("Senha/{email}")]
         [Authorize(Roles = "Funcionário")]
-        public IActionResult AtualizarSenha(Guid id, string senha)
+        public IActionResult AtualizarSenha(string email, AtualizarSenhaUsuarioDto usuarioDto)
         {
             try
             {
-                _service.AtualizarSenha(id, senha);
+                _service.AtualizarSenha(email, usuarioDto.Senha);
                 return NoContent();
             }
             catch (Exception ex)
