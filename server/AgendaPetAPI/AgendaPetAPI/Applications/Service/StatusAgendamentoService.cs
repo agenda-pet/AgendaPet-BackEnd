@@ -38,5 +38,21 @@ namespace AgendaPetAPI.Applications.Service
 
             return statusAgendamentoDto;
         }
+
+        public LerStatusAgendamentoDto ObterPorNome(string nomeStatus)
+        {
+            StatusAgendamento statusAgendamento = _repository.ObterPorNome(nomeStatus);
+            if (statusAgendamento == null)
+                throw new Exception("Nenhum status de agendamento localizado!!!");
+
+            LerStatusAgendamentoDto statusAgendamentoDto = new LerStatusAgendamentoDto
+            {
+                StatusAgendamentoID = statusAgendamento.StatusAgendamentoID,
+                NomeStatus = statusAgendamento.NomeStatus,
+            };
+
+            return statusAgendamentoDto;
+
+        }
     }
 }

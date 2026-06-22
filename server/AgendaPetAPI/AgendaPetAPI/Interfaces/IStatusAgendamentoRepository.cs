@@ -6,5 +6,6 @@ namespace AgendaPetAPI.Interfaces
     {
         public List<StatusAgendamento> Listar();
         public  StatusAgendamento ObterPorId(Guid id);
+        public StatusAgendamento ObterPorNome(string nomeStatus);
     }
 }

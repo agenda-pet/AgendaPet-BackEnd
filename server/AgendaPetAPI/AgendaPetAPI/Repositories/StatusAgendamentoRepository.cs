@@ -18,5 +18,10 @@ namespace AgendaPetAPI.Repositories
         {
             return _context.StatusAgendamento.Find(id);
         }
+
+        public StatusAgendamento ObterPorNome(string nomeStatus)
+        {
+            return _context.StatusAgendamento.FirstOrDefault(s => s.NomeStatus == nomeStatus);
+        }
     }
 }
