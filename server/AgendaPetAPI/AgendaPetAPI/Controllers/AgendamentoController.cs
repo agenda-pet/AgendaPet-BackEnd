@@ -23,7 +23,7 @@ namespace AgendaPetAPI.Controllers
         {
             string? idTexto = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if(string.IsNullOrWhiteSpace(idTexto))
+            if (string.IsNullOrWhiteSpace(idTexto))
             {
                 throw new DomainException("Usuário não autenticado");
             }
@@ -48,7 +48,7 @@ namespace AgendaPetAPI.Controllers
                 LerAgendamentoDto agendamento = _service.BuscarPorId(id);
                 return Ok(agendamento);
             }
-            catch(DomainException ex)
+            catch (DomainException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -73,7 +73,7 @@ namespace AgendaPetAPI.Controllers
                 _service.Adicionar(agendamentoDto, funcionarioUserID);
                 return Created();
             }
-            catch(DomainException ex)
+            catch (DomainException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -90,7 +90,21 @@ namespace AgendaPetAPI.Controllers
                 _service.Atualizar(id, agendamentoDto, funcionarioUserID);
                 return Ok();
             }
-            catch(DomainException ex)
+            catch (DomainException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch("AtualizarStatusAgendamento/{id}")]
+        public IActionResult AtualizarStatusAgendamento(Guid id, AtualizarStatusAgendamentoDto atualizarStatusDto)
+        {
+            try
+            {
+                _service.AtualizarStatusAgendamento(id, atualizarStatusDto.nomeStatusAgendamento);
+                return Ok();
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -105,10 +119,10 @@ namespace AgendaPetAPI.Controllers
                 _service.Cancelar(id);
                 return Ok();
             }
-            catch(DomainException ex)
+            catch (DomainException ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-    } 
+    }
 }

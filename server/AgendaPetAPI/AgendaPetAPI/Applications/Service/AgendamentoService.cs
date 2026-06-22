@@ -37,7 +37,7 @@ namespace AgendaPetAPI.Applications.Service
         {
             Agendamento agendamento = _repository.BuscarPorId(agendamentoId);
 
-            if(agendamento == null)
+            if (agendamento == null)
             {
                 throw new DomainException("Agendamento não encontrado");
             }
@@ -78,18 +78,18 @@ namespace AgendaPetAPI.Applications.Service
 
         public void Adicionar(CriarAgendamentoDto agendamentoDto, Guid funcionarioLogadoID)
         {
-            if(agendamentoDto.ServicosIds == null || !agendamentoDto.ServicosIds.Any())
+            if (agendamentoDto.ServicosIds == null || !agendamentoDto.ServicosIds.Any())
             {
                 throw new DomainException("É necessário colocar pelo menos um serviço para o agendamento.");
             }
 
-            if(_petRepository.ObterPorId(agendamentoDto.PetID) == null)
+            if (_petRepository.ObterPorId(agendamentoDto.PetID) == null)
             {
                 throw new DomainException("O Pet informado não existe no sistema");
             }
 
             DateTime dataHoraAgendamento = agendamentoDto.DataAgendamento.ToDateTime(agendamentoDto.HoraAgendamento);
-            if(dataHoraAgendamento < DateTime.Now)
+            if (dataHoraAgendamento < DateTime.Now)
             {
                 throw new DomainException("Não é possível adicionar um agendamento em uma data ou hora passado.");
             }
@@ -100,7 +100,7 @@ namespace AgendaPetAPI.Applications.Service
                           a.HoraAgendamento == agendamentoDto.HoraAgendamento &&
                           a.StatusAgendamento.NomeStatus != "Cancelado");
 
-            if(funcionarioOcupado)
+            if (funcionarioOcupado)
             {
                 throw new DomainException("Este funcionário já possui um agendamento neste mesmo dia e horário.");
             }
@@ -112,8 +112,8 @@ namespace AgendaPetAPI.Applications.Service
             foreach (var servicoID in agendamentoDto.ServicosIds)
             {
                 Servico servicoBanco = _servicoRepository.ObterPorId(servicoID);
-            
-                if(servicoBanco == null)
+
+                if (servicoBanco == null)
                 {
                     throw new DomainException("Serviço não encontrado.");
                 }
@@ -220,15 +220,28 @@ namespace AgendaPetAPI.Applications.Service
             _repository.Atualizar(agendamentoAtualizado);
         }
 
+        public void AtualizarStatusAgendamento(Guid id, string nomeStatusAgendamento)
+        {
+            Agendamento agendamento = _repository.BuscarPorId(id);
+            if (agendamento == null)
+                throw new DomainException("Nenhum agendamento encontrado");
+
+            StatusAgendamento status = _statusRepository.ObterPorNome(nomeStatusAgendamento);
+            if (status == null)
+                throw new DomainException("Nenhum status encontrado");
+
+            _repository.AtualizarStatusAgendamento(id, status.StatusAgendamentoID);
+        }
+
         public void Cancelar(Guid agendamentoId)
         {
             Agendamento agendamentoBanco = _repository.BuscarPorId(agendamentoId);
-            if(agendamentoBanco == null)
+            if (agendamentoBanco == null)
             {
                 throw new DomainException("Agendamento não encontrado.");
             }
 
-            if(agendamentoBanco.StatusAgendamento.NomeStatus == "Concluído")
+            if (agendamentoBanco.StatusAgendamento.NomeStatus == "Concluído")
             {
                 throw new DomainException("Não é possível cancelar um agendamento que já foi concluído.");
             }
@@ -239,8 +252,8 @@ namespace AgendaPetAPI.Applications.Service
             }
 
             StatusAgendamento? statusCancelado = _statusRepository.Listar().FirstOrDefault(s => s.NomeStatus == "Cancelado");
-        
-            if(statusCancelado == null)
+
+            if (statusCancelado == null)
             {
                 throw new DomainException("O status 'Cancelado' não foi encontrado no sistema.");
             }

@@ -109,6 +109,16 @@ namespace AgendaPetAPI.Repositories
             _context.SaveChanges();
         }
 
+        public void AtualizarStatusAgendamento(Guid agendamentoId, Guid statusAgendamentoId)
+        {
+            Agendamento agendamento = _context.Agendamento.Find(agendamentoId);
+            if (agendamento == null) return;
+
+            agendamento.StatusAgendamentoID = statusAgendamentoId;
+            _context.Update(agendamento);
+            _context.SaveChanges();
+        }
+
         public void Cancelar(Guid agendamentoId, Guid statusCanceladoId)
         {
             Agendamento? agendamentoBanco = _context.Agendamento

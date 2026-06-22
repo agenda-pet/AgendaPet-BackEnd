@@ -83,7 +83,7 @@ namespace AgendaPetAPI.Controllers
             }
         }
 
-        [HttpPut ("{id}")]
+        [HttpPut("{id}")]
         [Authorize(Roles = "Funcionário")]
         public IActionResult Atualizar(Guid id, AtualizarPetDto petDto)
         {
